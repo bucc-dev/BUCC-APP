@@ -97,7 +97,7 @@
     - constants: houses constant values like the base API url.
     - extensions: houses dart extension methods
     - mixins: houses mixin dart files 
-  - view_models: this directory houses the all view model files. A viewmodel class to a screen (as viewmodels are used to house the data of a specific UI - separating UI code from logic code). The UI/Screen interacts with the viewmodel to communicate with the services and other required functionalities to update the UI/View.
+  - view_models: this directory houses the all view model files. A viewmodel class to a screen (as viewmodels are used to house the data of a specific UI - separating UI code from logic code). The UI/Screen interacts with the viewmodel to communicate with the services and other required functionalities to update the UI/View. The ViewModel maintains all the state and interacts with services.
   - Model
   - Services: This directory houses classes created to perform a service for your user. That service can be to open the camera, share information, create a post, keep track of posts, cache your results, etc. Basically anything that has to DO something will be a service class.
   - views: this directory houses the UI dart files. A subdirectory is created for each screen where everything related to the screens are saved.
