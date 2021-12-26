@@ -32,15 +32,22 @@
   - Don't use braces in string interpolation except where necessary.
   - All variables and imports upon declaration, must either be used or removed.
   - Always specify type annotations.
+  - Views should never MAKE USE of a service directly.
+  - Views should contain zero to (preferred) no logic. If the logic is from UI only items then we do the least amount of required logic and pass the rest to the ViewModel.
+  - Views should ONLY render the state in its ViewModel.
+  - 1 View has 1 ViewModel
+  - ViewModels may be re-used if the UI requires the exact same functionality.
 
 
   ## Architecture:
+  
   MVVM suggested. Why? 
   - Modularity - ability to separate different sections of the app into small sections or modules, allowing for separate UI and logic code.
   - Scalability - maintenance and upgrade friendly.
   - Testability - different parts of the code can be independently tested.
   - Popularity - MVVM is a popular architecture among devs, thus most devs don’t need to spend additional time to learn a new concept.
   - Ability to integrate repository pattern - to interface between the api and the local database.
+  Views on top, the closest to the user, ViewModels are below that taking input from the Views and Services below that which is what the ViewModel's make use of to provide functionality. View's take in the users input and shows them things. The view then goes to the ViewModel and says, "Could you please do this thing for the user". The ViewModel then goes to the service and says "Can you please do this thing for me and let me know when you're done". The service then does the actual thing and then returns the results to the user.
     
   ## State Management
     Provider suggested, flows well with the MVVM architecture.
@@ -91,8 +98,16 @@
     - extensions: houses dart extension methods
     - mixins: houses mixin dart files 
   - view_models: this directory houses the all view model files. A viewmodel class to a screen (as viewmodels are used to house the data of a specific UI - separating UI code from logic code). The UI/Screen interacts with the viewmodel to communicate with the services and other required functionalities to update the UI/View.
+  - Model
+  - Services: This directory houses classes created to perform a service for your user. That service can be to open the camera, share information, create a post, keep track of posts, cache your results, etc. Basically anything that has to DO something will be a service class.
   - views: this directory houses the UI dart files. A subdirectory is created for each screen where everything related to the screens are saved.
     - custom_widget: this is a subdirectory in the view directory for housing custom widgets that would require alot of codes. In this case, a subdirectory is needed to separate the main view dart file from the widgets classes extracted from it.
     - general_widgets: this is a subdirectory in the view directory for housing reusable widgets (e.g snackbars, popups e.t.c.) that would be used by different widgets/screens.
   - main.dart: The main.dart file houses the main method which serves as the entry or starting point for Dart code execution. It is invoked on app launch.
 
+  ### Resources
+    [Unit test](https://www.filledstacks.com/post/practical-guide-to-unit-testing-in-flutter/)
+    [Unit test](https://www.filledstacks.com/post/how-to-unit-test-in-flutter/)
+    [How To Mock Unit Testing](https://www.filledstacks.com/post/how-to-mock-for-unit-testing/)
+    [Service class/folder](https://www.filledstacks.com/post/services-in-code-and-how-to-use-them-in-flutter/)
+    
