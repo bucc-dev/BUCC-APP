@@ -57,7 +57,7 @@
     Hive - For easy retrival of data when application is offline
 
   ## Testing
-  Ensure 
+  Ensure all widgets and functionalities are tested before pushing to the repository.
 
 ## Contribution Guide
   **_Steps to collaborate on the repository for team members._**
@@ -110,4 +110,11 @@
     [Unit test](https://www.filledstacks.com/post/how-to-unit-test-in-flutter/)
     [How To Mock Unit Testing](https://www.filledstacks.com/post/how-to-mock-for-unit-testing/)
     [Service class/folder](https://www.filledstacks.com/post/services-in-code-and-how-to-use-them-in-flutter/)
-    
+    [Dynamic Link](https://www.filledstacks.com/post/dynamic-links-in-flutter-a-complete-guide/)
+    [Responsive UI](https://www.filledstacks.com/post/the-best-flutter-responsive-ui-pattern/)
+    [Responsive UI](https://www.filledstacks.com/post/building-a-responsive-ui-architecture-in-flutter/)
+    [Flutter streams](https://www.filledstacks.com/post/a-complete-guide-to-flutter-streams/)
+    [Flutter test](https://docs.flutter.dev/cookbook/testing/widget/introduction)
+    [Flutter test](https://www.youtube.com/watch?v=RDY6UYh-nyg)
+    [Flutter test](https://www.youtube.com/watch?v=eLMa2jgp_bw&list=PLUiueC0kTFqLvpFk_Zg55geh_TBTKnbnA)
+    [Flutter test](https://www.youtube.com/watch?v=9wNa48EiksM&list=PL6tu16kXT9PrzZbUTUscEYOHHTVEKPLha)
