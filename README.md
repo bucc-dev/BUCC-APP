@@ -86,14 +86,14 @@
 
 
   ### Directory stucture
-    custom_widgets: this directory contains the list of widgets classes that can be reused in the different parts of the application.
+    components: this directory contains the list of widgets classes that can be reused in the different parts of the application.
     utilities: this dir contains subdirectories for utility classes, functions, mixins and even extension classes
 constants: houses constant values like the base API url
 extensions: houses dart extension methods
         mixins: houses mixin dart files 
     view_models: this directory houses the all view model files. A viewmodel class to a screen (as viewmodels are used to house the data of a specific UI - separating UI code from logic code). The UI/Screen interacts with the viewmodel to communicate with the services and other required functionalities to update the UI/View.
     views: this directory houses the UI dart files. A subdirectory is created for each screen where everything related to the screens are saved.
-        custom_widget: this is a subdirectory in the view directory for housing custom widgets that would require alot of codes. In this case, a subdirectory is needed to separate the main view dart file from the widgets classes extracted from it.
+        component: this is a subdirectory in the view directory for housing custom widgets that would require alot of codes. In this case, a subdirectory is needed to separate the main view dart file from the widgets classes extracted from it.
         general_widgets: this is a subdirectory in the view directory for housing reusable widgets (e.g snackbars, popups e.t.c.) that would be used by different widgets/screens.
     main.dart: The main.dart file houses the main method which serves as the entry or starting point for Dart code execution. It is invoked on app launch.
 
