@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bucc_app">
    <application
-        android:label="bucc_app"
+        android:label="BUCC Companion App"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
