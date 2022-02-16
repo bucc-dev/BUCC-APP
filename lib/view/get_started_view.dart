@@ -35,7 +35,8 @@ class GetStartedView extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: ButtonComponent(
                     onPressed: () {
-                      // Navigator.pushNamed(context, "/join_department_view");
+                      //Navigator.pushNamed(context, "/join_department_view");
+                      Navigator.pushNamed(context, "/home_screen");
                     },
                     text: "Get Started"),
               ),

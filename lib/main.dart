@@ -1,3 +1,4 @@
+import 'package:bucc_app/pages/home_screen.dart';
 import 'package:bucc_app/view/get_started_view.dart';
 import 'package:bucc_app/view/join_department.dart';
 import 'package:bucc_app/view/login_view.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         '/get_started_view': (_) => const GetStartedView(),
         '/join_department_view': (_) => const JoinDepartmentView(),
         '/verify_email_view': (_) => const VerifyEmailView(),
+        "/home_screen": (context) => const HomeScreen(),
       },
     );
   }
