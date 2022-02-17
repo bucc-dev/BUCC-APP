@@ -1,5 +1,5 @@
 import 'package:bucc_app/utils/constants/app_constants.dart';
-import 'package:bucc_app/utils/constants/colors.dart';
+import 'package:bucc_app/themes/theme.dart';
 import 'package:bucc_app/view/components/button_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

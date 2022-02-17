@@ -1,4 +1,6 @@
 import 'package:bucc_app/pages/home_screen.dart';
+import 'package:bucc_app/pages/student_profile.dart';
+import 'package:bucc_app/themes/theme.dart';
 import 'package:bucc_app/view/get_started_view.dart';
 import 'package:bucc_app/view/join_department.dart';
 import 'package:bucc_app/view/login_view.dart';
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'BUCC Companion App',
-      theme: ThemeData(primaryColor: Colors.white),
+      theme: currentThemeData.getCurrentThemeData,
       initialRoute: "/",
       routes: <String, WidgetBuilder>{
         '/': (_) => const OnboardingView(),
@@ -32,6 +34,7 @@ class MyApp extends StatelessWidget {
         '/join_department_view': (_) => const JoinDepartmentView(),
         '/verify_email_view': (_) => const VerifyEmailView(),
         "/home_screen": (context) => const HomeScreen(),
+        "/student_profile": (context) => const StudentProfile()
       },
     );
   }

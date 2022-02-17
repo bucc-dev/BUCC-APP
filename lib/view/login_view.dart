@@ -1,4 +1,4 @@
-import 'package:bucc_app/utils/constants/colors.dart';
+import 'package:bucc_app/themes/theme.dart';
 import 'package:bucc_app/view/components/custom_app_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

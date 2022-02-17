@@ -1,4 +1,4 @@
-import 'package:bucc_app/utils/constants/colors.dart';
+import 'package:bucc_app/themes/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
