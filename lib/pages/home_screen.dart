@@ -1,10 +1,10 @@
-///!THIS IS THE APP HOME SCREEN.
-///!THE APP BAR IS A PREFERRED SIZE WIDGET, HOUSING A TITLE BAR WIDGET
-///! THE BODY IS A TAB BAR WHOSE VIEWS ARE THE WIDGETS ...
-///!LatestActivity() && Events().
+///This is the app home screen.
+///THERE IS NO APP BAR, AS EACH SCREEN CALLED AT ...
+/// ... HomeScreenWrapper(pageIndex: _selectedIndex), Implements it's own appbar.
+///THE BODY IS A TAB BAR WHOSE VIEWS ARE THE WIDGETS ...
+///... LatestActivity() && Events().
 
 import 'package:bucc_app/themes/theme.dart';
-import 'package:bucc_app/view/custom_widgets/custom_app_bar.dart';
 import 'package:bucc_app/view/general_widgets/home_screen_wrapper.dart';
 import 'package:flutter/material.dart';
 
@@ -26,23 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size _screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(_screenSize.height * 0.11),
-        child: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
-            child: _selectedIndex == 0
-                ? const TitleBarWidget(
-                    pageTitle: "home",
-                  )
-                : const TitleBarWidget(
-                    pageTitle: "notifications",
-                  )),
-      ),
-
       //!HOME
       body: HomeScreenWrapper(pageIndex: _selectedIndex),
 
@@ -79,20 +63,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-/* Widget? fetchPageFromBottomBarSelection({required int pageIndex}) {
-  Widget? _theSelectedPage;
-  switch (pageIndex) {
-    case 0:
-      _theSelectedPage = const HomeFeed();
-      break;
-    case 1:
-      _theSelectedPage = const NotificationsPage();
-      break;
-    default:
-      const HomeFeed();
-  }
-
-  return _theSelectedPage;
-}
- */

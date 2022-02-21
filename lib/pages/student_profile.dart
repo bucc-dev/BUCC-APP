@@ -174,19 +174,19 @@ class _StudentProfileState extends State<StudentProfile> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.notifications_outlined),
-              label: 'Business',
+              label: 'Notification',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.explore_outlined),
-              label: 'School',
+              label: 'Explore',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.book_outlined),
-              label: 'School',
+              label: 'Planner',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.backpack_outlined),
-              label: 'School',
+              label: 'Backpack',
             ),
           ]),
     );

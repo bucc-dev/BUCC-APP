@@ -1,3 +1,7 @@
+///The latest activity tab, is built to wrap a custom post widget.
+///The custom post widget is called by a List view builder, to lazily build ...
+///...each post, as activities build up on the stream
+
 import 'package:bucc_app/themes/theme.dart';
 import 'package:bucc_app/view/custom_widgets/custom_posts.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +14,7 @@ class LatestActivity extends StatelessWidget {
     Size _screenSize = MediaQuery.of(context).size;
 
     return Column(
-      children: [
+      children: <Widget>[
         //!SPACER
         Container(
           height: _screenSize.height * 0.02,

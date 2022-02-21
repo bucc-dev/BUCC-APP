@@ -1,3 +1,6 @@
+///A simple stateless wrapper, called at home_screen.dart, that returns ...
+///... a screen, based on the index passed in its constructor
+
 import 'package:bucc_app/pages/notifications_page.dart';
 import 'package:bucc_app/view/home_feed.dart';
 import 'package:flutter/material.dart';

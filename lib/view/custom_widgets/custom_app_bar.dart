@@ -100,125 +100,57 @@ class _TitleBarWidgetState extends State<TitleBarWidget> {
               ),
             ),
           )
-        : widget.pageTitle == "student_profile"
-            //!FOR STUDENT PROFILE PAGE
-            ? SafeArea(
-                child: SizedBox(
-                  height: _screenSize.height * 0.10,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      //!ARROW BACK
-                      IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(Icons.arrow_back)),
+        :
+        //!STUDENT PROFILE
+        SafeArea(
+            child: SizedBox(
+              height: _screenSize.height * 0.10,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  //!ARROW BACK
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.arrow_back)),
 
-                      //!TITLE
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: _screenSize.width * 0.1,
-                            ),
-                            //!CUSTOM TEXT WIDGET
-                            const CustomTextWidget(
-                              textType: "title",
-                              text: "Student profile",
-                            ),
-
-                            //!DROP DOWN ICON
-                            IconButton(
-                              onPressed: () {
-                                //!TODO: WHAT SHOULD HAPPEN ON DROP DOWN
-                              },
-                              icon: const Icon(Icons.arrow_drop_down_outlined),
-                            ),
-                          ],
+                  //!TITLE
+                  Expanded(
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: _screenSize.width * 0.1,
                         ),
-                      ),
-
-                      //!COG / SETTINGS BUTTON
-                      IconButton(
-                        onPressed: () {
-                          //!TODO: WHAT SHOULD HAPPEN ON DROP DOWN
-                        },
-                        icon: const Icon(Icons.settings),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            :
-            //!FOR NOTIFICATIONS PAGE
-            SafeArea(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      //!USER IMAGE
-                      Expanded(
-                        flex: 1,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              "/student_profile",
-                            );
-                          },
-                          child: const CircleAvatar(
-                            radius: 30.0,
-                            backgroundImage:
-                                AssetImage("assets/Images/avatar 3.png"),
-                          ),
+                        //!CUSTOM TEXT WIDGET
+                        const CustomTextWidget(
+                          textType: "title",
+                          text: "Student profile",
                         ),
-                      ),
 
-                      //!WHITE SPACE
-                      SizedBox(
-                        width: _screenSize.width * 0.15,
-                      ),
-
-                      //!TITLE
-                      Expanded(
-                        flex: 4,
-                        child: Row(
-                          children: <Widget>[
-                            //!CUSTOM TEXT WIDGET
-                            const CustomTextWidget(
-                              textType: "title",
-                              text: "Notifications",
-                            ),
-
-                            //!DROP DOWN ICON
-                            IconButton(
-                              onPressed: () {
-                                //!TODO: WHAT SHOULD HAPPEN ON DROP DOWN
-                              },
-                              icon: const Icon(Icons.arrow_drop_down_outlined),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      //!COG / SETTINGS BUTTON
-                      Expanded(
-                        flex: 1,
-                        child: IconButton(
+                        /* //!DROP DOWN ICON
+                        IconButton(
                           onPressed: () {
                             //!TODO: WHAT SHOULD HAPPEN ON DROP DOWN
                           },
-                          icon: const Icon(Icons.edit_outlined),
-                        ),
-                      ),
-                    ],
+                          icon: const Icon(Icons.arrow_drop_down_outlined),
+                        ), */
+                      ],
+                    ),
                   ),
-                ),
-              );
+
+                  //!COG / SETTINGS BUTTON
+                  IconButton(
+                    onPressed: () {
+                      //!TODO: WHAT SHOULD HAPPEN ON DROP DOWN
+                    },
+                    icon: const Icon(Icons.settings),
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }
 
