@@ -10,14 +10,17 @@ class CompanionAppTheme {
       color: AppThemeColours.textButtonTextColour,
       fontSize: 14.0.sp);
 
-  //! APP THEME
-  static ThemeData get appTheme => ThemeData(
+  //! APP THEME - LIGHT
+  static ThemeData get appThemeLight => ThemeData(
       //! HOW PAGES TRANSITION BETWEEN EACH OTHER
       //! ASSIGN ALL PLATFORMS TO TRANSITION USING THE ZOOM PAGE TRANSITION
       pageTransitionsTheme: PageTransitionsTheme(builders: {
         for (final platform in TargetPlatform.values)
           platform: const ZoomPageTransitionsBuilder()
       }),
+
+      //! ENSURING THAT THE DENSITY OF ELEMENTS ACROSS THE APP, MATCHES THE PLATFORM
+      visualDensity: VisualDensity.adaptivePlatformDensity,
 
       //! OTHER COLOURS
       shadowColor: AppThemeColours.shadowColour,
@@ -26,8 +29,9 @@ class CompanionAppTheme {
       splashColor: AppThemeColours.splashColour,
 
       //! COLOUR SCHEME
-      colorScheme: ColorScheme.fromSwatch()
-          .copyWith(secondary: AppThemeColours.accentColour),
+      colorScheme: ColorScheme.fromSwatch().copyWith(
+          brightness: Brightness.light,
+          secondary: AppThemeColours.accentColour),
 
       //! APP BAR
       appBarTheme: AppBarTheme(
@@ -37,8 +41,23 @@ class CompanionAppTheme {
               color: Colors.black,
               fontWeight: FontWeight.w600,
               fontSize: 21.0.sp)),
-      iconTheme:
-          IconThemeData(color: AppThemeColours.iconColorBlack, size: 18.0.sp),
+
+      //! BOTTOM NAV BAR
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: AppThemeColours.scaffoldBackgroundColour,
+          unselectedIconTheme: IconThemeData(size: 16.0.sp),
+          selectedIconTheme: IconThemeData(
+              color: AppThemeColours.primaryColour, size: 18.0.sp),
+          unselectedLabelStyle:
+              TextStyle(color: Colors.black54, fontSize: 10.0.sp),
+          selectedLabelStyle: TextStyle(
+              color: AppThemeColours.primaryColour, fontSize: 12.0.sp),
+          selectedItemColor: AppThemeColours.primaryColour,
+          unselectedItemColor: Colors.black54),
+
+      //! ICON THEME
+      iconTheme: IconThemeData(
+          color: AppThemeColours.iconsColourLightMode, size: 18.0.sp),
 
       //! TEXT THEMES
       textTheme: TextTheme(
@@ -58,13 +77,113 @@ class CompanionAppTheme {
                   color: AppThemeColours.headerColour),
 
               //! BODY TEXT
-              bodyText1: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: AppThemeColours.bodyTextColour, fontSize: 13.0.sp)
-                  .copyWith(overflow: TextOverflow.visible),
-              bodyText2: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w500,
-                      color: AppThemeColours.bodyTextColour,
-                      fontSize: 12.0.sp)
-                  .copyWith(overflow: TextOverflow.visible))
+              bodyText1:
+                  GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: AppThemeColours.bodyTextColour, fontSize: 13.0.sp)
+                      .copyWith(overflow: TextOverflow.visible),
+              bodyText2:
+                  GoogleFonts.montserrat(fontWeight: FontWeight.w500, color: AppThemeColours.bodyTextColour, fontSize: 12.0.sp)
+                      .copyWith(overflow: TextOverflow.visible))
+          .apply(fontSizeFactor: 1.sp),
+
+      //! SNACK BAR
+      snackBarTheme: SnackBarThemeData(
+          elevation: 12.0.sp,
+          backgroundColor: Colors.black,
+          shape: const StadiumBorder(),
+          contentTextStyle: TextStyle(
+              fontSize: 14.0.sp,
+              fontWeight: FontWeight.w600,
+              color: Colors.white)),
+
+      //! BOTTOM SHEET THEME
+      bottomSheetTheme: const BottomSheetThemeData(
+          elevation: 12.0, backgroundColor: Colors.transparent),
+
+      //! BUTTONS
+      //! ELEVATED BUTTON
+      elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(vertical: 20.0.h, horizontal: 100.0.w),
+              backgroundColor: AppThemeColours.elevatedButtonBGColour,
+              textStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: Colors.white, fontSize: 14.0.sp),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0.r)))));
+
+  //!
+  //!
+  //!
+  //! APP THEME - DARK
+  //!
+  static ThemeData get appThemeDark => ThemeData(
+      //! HOW PAGES TRANSITION BETWEEN EACH OTHER
+      //! ASSIGN ALL PLATFORMS TO TRANSITION USING THE ZOOM PAGE TRANSITION
+      pageTransitionsTheme: PageTransitionsTheme(builders: {
+        for (final platform in TargetPlatform.values)
+          platform: const ZoomPageTransitionsBuilder()
+      }),
+
+      //! ENSURING THAT THE DENSITY OF ELEMENTS ACROSS THE APP, MATCHES THE PLATFORM
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+
+      //! OTHER COLOURS
+      shadowColor: AppThemeColours.shadowColour,
+      backgroundColor: AppThemeColours.backgroundColourDark,
+      scaffoldBackgroundColor: AppThemeColours.scaffoldBackgroundColourDark,
+      splashColor: AppThemeColours.splashColour,
+
+      //! COLOUR SCHEME
+      colorScheme: ColorScheme.fromSwatch().copyWith(
+          brightness: Brightness.dark, secondary: AppThemeColours.accentColour),
+
+      //! APP BAR
+      appBarTheme: AppBarTheme(
+          backgroundColor: AppThemeColours.appBackgroundColourDark,
+          shadowColor: AppThemeColours.shadowColour,
+          titleTextStyle: GoogleFonts.montserrat(
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+              fontSize: 21.0.sp)),
+
+      //! BOTTOM NAV BAR
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: AppThemeColours.scaffoldBackgroundColourDark,
+          unselectedIconTheme: IconThemeData(size: 16.0.sp),
+          selectedIconTheme: IconThemeData(
+              color: AppThemeColours.primaryColour, size: 18.0.sp),
+          unselectedLabelStyle:
+              TextStyle(color: Colors.black54, fontSize: 10.0.sp),
+          selectedLabelStyle: TextStyle(
+              color: AppThemeColours.primaryColour, fontSize: 12.0.sp),
+          selectedItemColor: AppThemeColours.primaryColour,
+          unselectedItemColor: Colors.white),
+
+      //! ICONS
+      iconTheme: IconThemeData(
+          color: AppThemeColours.iconsColourDarkMode, size: 18.0.sp),
+
+      //! TEXT THEMES
+      textTheme: TextTheme(
+              //! HEADER TEXTS
+              headline1: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 21.0.sp,
+                  color: AppThemeColours.headerColourDark),
+              headline2: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18.0.sp,
+                  color: AppThemeColours.headerColourDark),
+              //! SUBHEADER TEXTS - TYPE 2
+              headline3: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.0.sp,
+                  color: AppThemeColours.headerColourDark),
+
+              //! BODY TEXT
+              bodyText1:
+                  GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: AppThemeColours.bodyTextColourDark, fontSize: 13.0.sp)
+                      .copyWith(overflow: TextOverflow.visible),
+              bodyText2:
+                  GoogleFonts.montserrat(fontWeight: FontWeight.w500, color: AppThemeColours.bodyTextColourDark, fontSize: 12.0.sp)
+                      .copyWith(overflow: TextOverflow.visible))
           .apply(fontSizeFactor: 1.sp),
 
       //! SNACK BAR
@@ -96,12 +215,15 @@ class AppThemeColours {
   //! BACKGROUNDS
   //! BACKGROUND
   static const Color backgroundColour = Colors.white;
+  static const Color backgroundColourDark = Color(0xFF313636);
 
   //! APP BAR BG COLOUR
   static const Color appBackgroundColour = Colors.white;
+  static const Color appBackgroundColourDark = Color(0xFF313636);
 
   //! SCAFFOLD BACKGROUND COLOUR
   static const scaffoldBackgroundColour = Colors.white;
+  static const Color scaffoldBackgroundColourDark = Color(0xFF313636);
 
   //! SHADOW COLOUR
   static Color shadowColour = const Color(0xFF556FCB).withOpacity(0.1);
@@ -135,11 +257,15 @@ class AppThemeColours {
   //! TEXT
   //!HEADER COLOURS
   static const headerColour = Color(0xFF313636);
+  static const headerColourDark = Colors.white;
+
   //! BODY TEXT COLOUR
   static const bodyTextColour = Color(0xFF313636);
+  static const bodyTextColourDark = Colors.white;
 
   //! ICON COLOURS
-  static const iconColorBlack = Color(0xFF333333);
+  static const iconsColourLightMode = Color(0xFF333333);
+  static const iconsColourDarkMode = Colors.white;
 
   //! OTHER COLOURS
   static const Color lightGrey = Color(0xFF878787);

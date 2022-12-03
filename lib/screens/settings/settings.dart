@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:bucc_app/router/router.dart';
 import 'package:bucc_app/router/routes.dart';
@@ -8,23 +7,24 @@ import 'package:bucc_app/screens/settings/widget/main_settings_item_widget.dart'
 import 'package:bucc_app/screens/settings/widget/social_media_widget.dart';
 import 'package:bucc_app/screens/widgets/button_component.dart';
 import 'package:bucc_app/theme/app_theme.dart';
+import 'package:bucc_app/theme/theme_preferences.dart';
 import 'package:bucc_app/utils/app_functional_utils.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:bucc_app/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen>
+class _SettingsScreenState extends ConsumerState<SettingsScreen>
     with TickerProviderStateMixin {
   static const List<String> _mainSettingsList = [
     "Change profile picture",
@@ -65,8 +65,6 @@ class _SettingsScreenState extends State<SettingsScreen>
     "Dark mode"
   ];
 
-  late SharedPreferences _sharedPref;
-
   @override
   void initState() {
     super.initState();
@@ -75,175 +73,178 @@ class _SettingsScreenState extends State<SettingsScreen>
   }
 
   @override
-  void didChangeDependencies() async {
-    //! SET THEME PREF
-    _sharedPref = await SharedPreferences.getInstance();
+  void didChangeDependencies() {
+    String themeMode =
+        ref.watch(themeModeProvider.notifier).theCurrentThemeMode;
 
-    super.didChangeDependencies();
-    setState(() {});
-
-    //! ANIMATE TAB CONTROLLER TO TAB OF SAVED THEME PREFERENCE
-    for (var themeOption in _themeOptions) {
-      if (themeOption.toLowerCase() == _sharedPref.getString("themeMode")) {
-        _tabController.animateTo(_themeOptions.indexOf(themeOption));
+    //! IF THE MODE IN LOWER CASE CONTAINS THE LAST PART OF THE THEME MODE ENUM
+    //! AFTER BEING SPLIT BY THE "." SEPARATOR, ANIMATE THE TAB TO THAT OPTION
+    //! THIS SHOWS THE USERS LAST SELECTED MODE.
+    for (var mode in _themeOptions) {
+      if (mode.toLowerCase().contains(themeMode.split(".").last)) {
+        _tabController.animateTo(_themeOptions.indexOf(mode));
       }
     }
+
+    super.didChangeDependencies();
   }
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-      padding: AppScreenUtils.appMainPadding,
-      physics: const BouncingScrollPhysics(),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-        //! SPACER
-        AppScreenUtils.verticalSpaceSmall,
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+        padding: AppScreenUtils.appMainPadding,
+        physics: const BouncingScrollPhysics(),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          //! SPACER
+          AppScreenUtils.verticalSpaceSmall,
 
-        //! IMAGE
-        Align(
-            alignment: Alignment.center,
-            child: Container(
-                height: 100.0.h,
-                width: 100.0.w,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border:
-                        Border.all(width: 2.0.sp, color: Colors.grey.shade600),
-                    color: Colors.grey.shade200,
-                    image: _imageHasValue
-                        ? null
-                        : const DecorationImage(
-                            image: AssetImage(defaultUserImage3),
-                            fit: BoxFit.contain)),
-                child: _imageHasValue
-                    ? Image.file(File(_selectedUserImage!.path),
-                        fit: BoxFit.contain)
-                    : null)),
-
-        //! SPACER
-        AppScreenUtils.verticalSpaceSmall,
-
-        //! USER NAME
-        Text("Oluchi Egboh",
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                color: const Color(0xFF313636),
-                fontWeight: FontWeight.w600,
-                fontSize: 16.0.sp)),
-
-        //! SPACER
-        AppScreenUtils.verticalSpaceSmall,
-
-        //! USER DETAILS - COURSE AND LEVEL
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          //! COURSE
-          Text("Software Engineering",
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  color: const Color(0xFF313636),
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14.0.sp)),
+          //! IMAGE
+          Align(
+              alignment: Alignment.center,
+              child: Container(
+                  height: 100.0.h,
+                  width: 100.0.w,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                          width: 2.0.sp, color: Colors.grey.shade600),
+                      color: Colors.grey.shade200,
+                      image: _imageHasValue
+                          ? null
+                          : const DecorationImage(
+                              image: AssetImage(defaultUserImage3),
+                              fit: BoxFit.contain)),
+                  child: _imageHasValue
+                      ? Image.file(File(_selectedUserImage!.path),
+                          fit: BoxFit.contain)
+                      : null)),
 
           //! SPACER
-          AppScreenUtils.horizontalSpaceSmall,
+          AppScreenUtils.verticalSpaceSmall,
 
-          //! DOT
-          CircleAvatar(radius: 3.0.r, backgroundColor: const Color(0xFF4F4F4F)),
-
-          //! SPACER
-          AppScreenUtils.horizontalSpaceSmall,
-
-          //! LEVEL
-          Text("400L",
+          //! USER NAME
+          Text("Oluchi Egboh",
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
                   color: const Color(0xFF313636),
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14.0.sp))
-        ]),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.0.sp)),
 
-        //! SPACER
-        AppScreenUtils.verticalSpaceSmall,
+          //! SPACER
+          AppScreenUtils.verticalSpaceSmall,
 
-        //! NOTICE
-        const Align(alignment: Alignment.centerLeft, child: Text("Settings")),
+          //! USER DETAILS - COURSE AND LEVEL
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            //! COURSE
+            Text("Software Engineering",
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    color: const Color(0xFF313636),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14.0.sp)),
 
-        //! SPACER
-        AppScreenUtils.verticalSpaceSmall,
+            //! SPACER
+            AppScreenUtils.horizontalSpaceSmall,
 
-        ...List.generate(
-            4,
-            (index) => MainSettingsItemWidget(
-                index: index,
-                onTap: () => index == 0
-                    ? AppFunctionalUtils.pickImage(userChoice: "").then(
-                        (value) => setState(() => {
-                              _selectedUserImage = value,
-                              _imageHasValue = true
-                            }))
-                    : index == 2
-                        ? Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ReportAProblemScreen()))
-                        : index == 1
-                            ? Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    const ChangePasswordScreen()))
-                            : {},
-                theIcon: _mainSettingsIcons.elementAt(index),
-                title: _mainSettingsList.elementAt(index))),
+            //! DOT
+            CircleAvatar(
+                radius: 3.0.r, backgroundColor: const Color(0xFF4F4F4F)),
 
-        //! SPACER
-        AppScreenUtils.verticalSpaceSmall,
+            //! SPACER
+            AppScreenUtils.horizontalSpaceSmall,
 
-        //! NOTICE
-        const Align(
-            alignment: Alignment.centerLeft, child: Text("Social media")),
+            //! LEVEL
+            Text("400L",
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    color: const Color(0xFF313636),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14.0.sp))
+          ]),
 
-        //! SPACER
-        AppScreenUtils.verticalSpaceSmall,
+          //! SPACER
+          AppScreenUtils.verticalSpaceSmall,
 
-        ...List.generate(
-            3,
-            (index) => SocialMediaSettingsItemWidget(
-                theIcon: _socialMediaIcons.elementAt(index),
-                title: _socialMediaHandles.elementAt(index))),
+          //! NOTICE
+          const Align(alignment: Alignment.centerLeft, child: Text("Settings")),
 
-        //! SPACER
-        AppScreenUtils.verticalSpaceSmall,
+          //! SPACER
+          AppScreenUtils.verticalSpaceSmall,
 
-        //!  CHANGE THEME
-        SizedBox(
-            height: 56.0.h,
-            width: double.infinity.w,
-            child: //! TAB NOTIFIER
-                TabBar(
-                    controller: _tabController,
-                    indicatorColor: AppThemeColours.primaryColour,
-                    indicatorWeight: 3.0.h,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    physics: const BouncingScrollPhysics(),
-                    onTap: (value) async {
-                      //! FETCH THE ELEMENT AT THE CURRENT VALUE
-                      _sharedPref.setString("themeMode",
-                          _themeOptions.elementAt(value).toLowerCase());
+          ...List.generate(
+              4,
+              (index) => MainSettingsItemWidget(
+                  index: index,
+                  onTap: () => index == 0
+                      ? AppFunctionalUtils.pickImage(userChoice: "").then(
+                          (value) => setState(() => {
+                                _selectedUserImage = value,
+                                _imageHasValue = true
+                              }))
+                      : index == 2
+                          ? Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  const ReportAProblemScreen()))
+                          : index == 1
+                              ? Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ChangePasswordScreen()))
+                              : {},
+                  theIcon: _mainSettingsIcons.elementAt(index),
+                  title: _mainSettingsList.elementAt(index))),
 
-                      log(value.toString());
+          //! SPACER
+          AppScreenUtils.verticalSpaceSmall,
 
-                      log(_sharedPref.getString("themeMode")!);
-                    },
-                    tabs: _themeOptions
-                        .map((themeOption) => Text(themeOption,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(fontSize: 12.0.sp)))
-                        .toList())),
+          //! NOTICE
+          const Align(
+              alignment: Alignment.centerLeft, child: Text("Social media")),
 
-        //! SPACER
-        AppScreenUtils.verticalSpaceSmall,
+          //! SPACER
+          AppScreenUtils.verticalSpaceSmall,
 
-        ButtonComponent(
-            onPressed: () => AppNavigator.navigateToAndRemoveAllPreviousScreens(
-                thePageRouteName: AppRoutes.login, context: context),
-            text: "Logout"),
+          ...List.generate(
+              3,
+              (index) => SocialMediaSettingsItemWidget(
+                  theIcon: _socialMediaIcons.elementAt(index),
+                  title: _socialMediaHandles.elementAt(index))),
 
-        //! SPACER
-        AppScreenUtils.verticalSpaceSmall
-      ]));
+          //! SPACER
+          AppScreenUtils.verticalSpaceSmall,
+
+          //!  CHANGE THEME
+          SizedBox(
+              height: 56.0.h,
+              width: double.infinity.w,
+              child: //! TAB NOTIFIER
+                  TabBar(
+                      controller: _tabController,
+                      indicatorColor: AppThemeColours.primaryColour,
+                      indicatorWeight: 3.0.h,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      physics: const BouncingScrollPhysics(),
+                      onTap: (value) => ref
+                          .read(themeModeProvider.notifier)
+                          .toggle(
+                              newThemeMode: ThemeModeEnum.values
+                                  .elementAt(value)
+                                  .toString()),
+                      tabs: _themeOptions
+                          .map((themeOption) => Text(themeOption,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(fontSize: 12.0.sp)))
+                          .toList())),
+
+          //! SPACER
+          AppScreenUtils.verticalSpaceSmall,
+
+          ButtonComponent(
+              onPressed: () =>
+                  AppNavigator.navigateToAndRemoveAllPreviousScreens(
+                      thePageRouteName: AppRoutes.login, context: context),
+              text: "Logout"),
+
+          //! SPACER
+          AppScreenUtils.verticalSpaceSmall
+        ]));
+  }
 }

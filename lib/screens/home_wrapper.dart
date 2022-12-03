@@ -88,15 +88,6 @@ class _HomeWrapperState extends State<HomeWrapper>
               _tabController.animateTo(currentPageIndex);
             },
             currentIndex: currentPageIndex,
-            //! STYLING
-            unselectedIconTheme: IconThemeData(size: 16.0.sp),
-            selectedIconTheme: IconThemeData(
-                color: AppThemeColours.primaryColour, size: 18.0.sp),
-            unselectedLabelStyle:
-                TextStyle(color: Colors.black54, fontSize: 10.0.sp),
-            selectedLabelStyle: TextStyle(color: purple, fontSize: 12.0.sp),
-            selectedItemColor: AppThemeColours.primaryColour,
-            unselectedItemColor: Colors.black54,
 
             //! ITEMS
             items: const [

@@ -1,6 +1,7 @@
 import 'package:bucc_app/router/router.dart';
 import 'package:bucc_app/screens/home_wrapper.dart';
 import 'package:bucc_app/theme/app_theme.dart';
+import 'package:bucc_app/theme/theme_preferences.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,37 +25,48 @@ Future<void> main() async {
 
 //! THIS IS USED TO INITIALIZE APP RESOURCES, WHILE THE ONBOARDING SCREEN IS LOADING.
 
-class BUCCCompanionApp extends StatelessWidget {
+class BUCCCompanionApp extends ConsumerWidget {
   final bool showHome;
   const BUCCCompanionApp({Key? key, required this.showHome}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ScreenUtilInit(
-      minTextAdapt: true,
-      splitScreenMode: true,
-      designSize: const Size(375,
-          812), //! 375 BY 812 - THAT'S THE LAYOUT GIVEN ON THE DESIGN BOARD
+  Widget build(BuildContext context, WidgetRef ref) {
+    //! GET THE THEME MODE FROM REF
+    String themeMode = ref.watch(themeModeProvider);
 
-      //! BASE WIDGET
-      builder: (context, child) => MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: "BUCC Companion App",
-          theme: CompanionAppTheme.appTheme,
+    return ScreenUtilInit(
+        minTextAdapt: true,
+        splitScreenMode: true,
+        designSize: const Size(375,
+            812), //! 375 BY 812 - THAT'S THE LAYOUT GIVEN ON THE DESIGN BOARD
 
-          //! SCROLL BEHAVIOUR CLASS, ACCEPTING ONLY TWO TYPES OF SCROLL DEVICES;
-          //! MOUSE AND TOUCH.
-          scrollBehavior: const MaterialScrollBehavior()
-              .copyWith(scrollbars: false, dragDevices: {
-            PointerDeviceKind.mouse,
-            PointerDeviceKind.touch,
-            PointerDeviceKind.stylus,
-            PointerDeviceKind.unknown
-          }),
+        //! BASE WIDGET
+        builder: (context, child) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: "BUCC Companion App",
+            theme: CompanionAppTheme.appThemeLight,
+            darkTheme: CompanionAppTheme.appThemeDark,
+            themeMode: themeMode == ThemeModeEnum.light.toString()
+                ? ThemeMode.light
+                : themeMode == ThemeModeEnum.dark.toString()
+                    ? ThemeMode.dark
+                    : ThemeMode.system,
 
-          //! ROUTING
-          onGenerateRoute: (settings) =>
-              AppNavigator.generateRoute(routeSettings: settings),
+            //! SCROLL BEHAVIOUR CLASS, ACCEPTING ONLY TWO TYPES OF SCROLL DEVICES;
+            //! MOUSE AND TOUCH.
+            scrollBehavior: const MaterialScrollBehavior()
+                .copyWith(scrollbars: false, dragDevices: {
+              PointerDeviceKind.mouse,
+              PointerDeviceKind.touch,
+              PointerDeviceKind.stylus,
+              PointerDeviceKind.unknown
+            }),
 
-          //! HOME
-          home: showHome ? const HomeWrapper() : const OnboardingView()));
+            //! ROUTING
+            onGenerateRoute: (settings) =>
+                AppNavigator.generateRoute(routeSettings: settings),
+
+            //! HOME
+            home: showHome ? const OnboardingView() : const OnboardingView()));
+  }
 }

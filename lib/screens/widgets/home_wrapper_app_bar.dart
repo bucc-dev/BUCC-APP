@@ -1,4 +1,5 @@
 import 'package:bucc_app/screens/notifications/notifications.dart';
+import 'package:bucc_app/theme/app_theme.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:bucc_app/utils/constants/app_constants.dart';
 import 'package:bucc_app/utils/constants/colors.dart';
@@ -16,11 +17,12 @@ class HomeWrapperAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) => AppBar(
-      backgroundColor: white,
       elevation: 4.0,
       automaticallyImplyLeading: false,
       centerTitle: true,
-      shadowColor: purple.withOpacity(0.1),
+      shadowColor: Theme.of(context).brightness == Brightness.light
+          ? AppThemeColours.primaryColour.withOpacity(0.1)
+          : Colors.white.withOpacity(0.1),
       title: screenIndex == 1
           ?
 
@@ -70,7 +72,6 @@ class HomeWrapperAppBar extends StatelessWidget implements PreferredSizeWidget {
                       side: BorderSide(
                           width: 1.5, color: lightGrey.withOpacity(0.1)),
                       borderRadius: BorderRadius.circular(8.0)),
-                  color: Colors.white,
                   offset: Offset(85.w, 60.h),
                   elevation: 4.0,
                   constraints:

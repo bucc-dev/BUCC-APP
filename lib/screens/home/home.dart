@@ -29,8 +29,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             indicatorColor: AppThemeColours.primaryColour,
             indicatorWeight: 3.0.h,
             indicatorSize: TabBarIndicatorSize.tab,
-            unselectedLabelColor: Colors.black54,
-            labelColor: AppThemeColours.headerColour,
+            unselectedLabelColor:
+                Theme.of(context).brightness == Brightness.light
+                    ? Colors.black54
+                    : Colors.white.withOpacity(0.5),
+            labelColor: Theme.of(context).brightness == Brightness.light
+                ? AppThemeColours.headerColour
+                : Colors.white,
             physics: const BouncingScrollPhysics(),
             tabs: const [
               Padding(

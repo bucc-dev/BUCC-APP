@@ -23,20 +23,6 @@ class _VerifyCodeState extends State<VerifyCode> {
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
 
-  static const focusedBorderColor = Color.fromRGBO(23, 171, 144, 1);
-
-  //! PIN INPUT FIELD THEME
-  final PinTheme defaultPinTheme = PinTheme(
-      width: 56.0.w,
-      height: 56.0.h,
-      textStyle: GoogleFonts.montserrat(
-          fontWeight: FontWeight.w600,
-          fontSize: 21.0.sp,
-          color: AppThemeColours.headerColour),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0.r),
-          border: Border.all(color: AppThemeColours.lightGrey)));
-
   @override
   void dispose() {
     pinController.dispose();
@@ -45,129 +31,146 @@ class _VerifyCodeState extends State<VerifyCode> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: const CustomAppBar(),
+  Widget build(BuildContext context) {
+    //! PIN INPUT FIELD THEME
+    final PinTheme defaultPinTheme = PinTheme(
+        width: 56.0.w,
+        height: 56.0.h,
+        textStyle: GoogleFonts.montserrat(
+            fontWeight: FontWeight.w600, fontSize: 21.0.sp),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0.r),
+            border: Border.all(
+                color: Theme.of(context).brightness == Brightness.light
+                    ? AppThemeColours.lightGrey.withOpacity(0.5)
+                    : Colors.white)));
 
-      //! BODY
-      body: SafeArea(
-          child: Padding(
-              padding: AppScreenUtils.appMainPadding,
-              child: Form(
-                  key: formKey,
-                  child: Column(children: [
-                    //! SPACER
-                    AppScreenUtils.verticalSpaceLarge,
+    return Scaffold(
+        appBar: const CustomAppBar(),
 
-                    //! NOTICE
-                    Center(
-                        child: Text("Enter the verification code",
-                            style: Theme.of(context).textTheme.headline3)),
+        //! BODY
+        body: SafeArea(
+            child: Padding(
+                padding: AppScreenUtils.appMainPadding,
+                child: Form(
+                    key: formKey,
+                    child: Column(children: [
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceLarge,
 
-                    //! SPACER
-                    AppScreenUtils.verticalSpaceLarge,
+                      //! NOTICE
+                      Center(
+                          child: Text("Enter the verification code",
+                              style: Theme.of(context).textTheme.headline3)),
 
-                    //! INPUT FIELD
-                    Directionality(
-                        textDirection:
-                            TextDirection.ltr, //! SPECIFY DESIRED DIRECTION
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceLarge,
 
-                        //! MAIN PIN PAD
-                        child: Pinput(
-                            controller: pinController,
-                            focusNode: focusNode,
-                            androidSmsAutofillMethod:
-                                AndroidSmsAutofillMethod.smsUserConsentApi,
-                            listenForMultipleSmsOnAndroid: true,
-                            defaultPinTheme: defaultPinTheme,
+                      //! INPUT FIELD
+                      Directionality(
+                          textDirection:
+                              TextDirection.ltr, //! SPECIFY DESIRED DIRECTION
 
-                            //! VALIDATOR
-                            validator: (value) => "",
+                          //! MAIN PIN PAD
+                          child: Pinput(
+                              controller: pinController,
+                              focusNode: focusNode,
+                              androidSmsAutofillMethod:
+                                  AndroidSmsAutofillMethod.smsUserConsentApi,
+                              listenForMultipleSmsOnAndroid: true,
+                              defaultPinTheme: defaultPinTheme,
 
-                            //! WHEN DATA IS SEEN IN CLIP BOARD
-                            onClipboardFound: (value) {
-                              log('onClipboardFound: $value');
-                              pinController.setText(value);
-                            },
+                              //! VALIDATOR
+                              validator: (value) => "",
 
-                            //! ADD HAPTIC FEED / LITTLE VIBRATIONS
-                            hapticFeedbackType: HapticFeedbackType.lightImpact,
+                              //! WHEN DATA IS SEEN IN CLIP BOARD
+                              onClipboardFound: (value) {
+                                log('onClipboardFound: $value');
+                                pinController.setText(value);
+                              },
 
-                            //! WHEN COMPLETED
-                            onCompleted: (pin) {
-                              log('onCompleted: $pin');
-                            },
+                              //! ADD HAPTIC FEED / LITTLE VIBRATIONS
+                              hapticFeedbackType:
+                                  HapticFeedbackType.lightImpact,
 
-                            //! IF VALUE IS CHANGED
-                            onChanged: (value) {
-                              log('onChanged: $value');
-                            },
+                              //! WHEN COMPLETED
+                              onCompleted: (pin) {
+                                log('onCompleted: $pin');
+                              },
 
-                            //! CURSOR STYLING
-                            cursor: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Container(
-                                      margin: EdgeInsets.only(bottom: 8.0.h),
-                                      width: 21.0.w,
-                                      height: 1.0..h,
-                                      color: AppThemeColours.primaryColour)
-                                ]),
+                              //! IF VALUE IS CHANGED
+                              onChanged: (value) {
+                                log('onChanged: $value');
+                              },
 
-                            //! THEME FOR WHEN PIN PAD IS IN FOCUS
-                            focusedPinTheme: defaultPinTheme.copyWith(
-                                decoration: defaultPinTheme.decoration!.copyWith(
-                                    border: Border.all(
-                                        color: AppThemeColours.primaryColour))),
+                              //! CURSOR STYLING
+                              cursor: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                        margin: EdgeInsets.only(bottom: 8.0.h),
+                                        width: 21.0.w,
+                                        height: 1.0..h,
+                                        color: AppThemeColours.primaryColour)
+                                  ]),
 
-                            //! THEME FOR WHEN PIN PAD INPUT HAS BEEN SUBMITTED
-                            submittedPinTheme: defaultPinTheme.copyWith(
-                                decoration: defaultPinTheme.decoration!
-                                    .copyWith(
-                                        color: AppThemeColours
-                                            .primaryColourWitOpacity,
-                                        border: Border.all(
-                                            color:
-                                                AppThemeColours.accentColour))),
+                              //! THEME FOR WHEN PIN PAD IS IN FOCUS
+                              focusedPinTheme: defaultPinTheme.copyWith(
+                                  decoration: defaultPinTheme.decoration!.copyWith(
+                                      border: Border.all(
+                                          color:
+                                              AppThemeColours.primaryColour))),
 
-                            //! ERROR THEME
-                            errorTextStyle: Theme.of(context)
-                                .textTheme
-                                .bodyText2!
-                                .copyWith(color: AppThemeColours.red),
-                            errorPinTheme: defaultPinTheme.copyBorderWith(
-                                border: Border.all(
-                                    width: 1..sp,
-                                    color: AppThemeColours.red)))),
+                              //! THEME FOR WHEN PIN PAD INPUT HAS BEEN SUBMITTED
+                              submittedPinTheme: defaultPinTheme.copyWith(
+                                  decoration: defaultPinTheme.decoration!
+                                      .copyWith(
+                                          color: AppThemeColours
+                                              .primaryColourWitOpacity,
+                                          border: Border.all(
+                                              color: AppThemeColours
+                                                  .accentColour))),
 
-                    //! SPACER
-                    const Spacer(),
+                              //! ERROR THEME
+                              errorTextStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(color: AppThemeColours.red),
+                              errorPinTheme: defaultPinTheme.copyBorderWith(
+                                  border: Border.all(
+                                      width: 1..sp,
+                                      color: AppThemeColours.red)))),
 
-                    //! TEXT BUTTON
-                    TextButton(
-                        onPressed: () {},
-                        child: Text("Resend code",
-                            style: CompanionAppTheme.textButtonStyle.copyWith(
-                                fontSize: 11.0.sp,
-                                shadows: [
-                                  const Shadow(
-                                      color: Color(0xFF5F6DEF),
-                                      offset: Offset(0, -5))
-                                ],
-                                color: Colors.transparent,
-                                decoration: TextDecoration.underline,
-                                decorationColor: const Color(0xFF5F6DEF),
-                                decorationThickness: 1.5.sp,
-                                decorationStyle: TextDecorationStyle.solid))),
+                      //! SPACER
+                      const Spacer(),
 
-                    //! BUTTON
-                    ButtonComponent(
-                        onPressed: () =>
-                            AppNavigator.navigateToAndRemoveAllPreviousScreens(
-                                thePageRouteName: AppRoutes.homeScreenWrapper,
-                                context: context),
-                        text: "Next"),
+                      //! TEXT BUTTON
+                      TextButton(
+                          onPressed: () {},
+                          child: Text("Resend code",
+                              style: CompanionAppTheme.textButtonStyle.copyWith(
+                                  fontSize: 11.0.sp,
+                                  shadows: [
+                                    const Shadow(
+                                        color: Color(0xFF5F6DEF),
+                                        offset: Offset(0, -5))
+                                  ],
+                                  color: Colors.transparent,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: const Color(0xFF5F6DEF),
+                                  decorationThickness: 1.5.sp,
+                                  decorationStyle: TextDecorationStyle.solid))),
 
-                    //! SPACER
-                    AppScreenUtils.verticalSpaceSmall
-                  ])))));
+                      //! BUTTON
+                      ButtonComponent(
+                          onPressed: () => AppNavigator
+                              .navigateToAndRemoveAllPreviousScreens(
+                                  thePageRouteName: AppRoutes.homeScreenWrapper,
+                                  context: context),
+                          text: "Next"),
+
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceSmall
+                    ])))));
+  }
 }

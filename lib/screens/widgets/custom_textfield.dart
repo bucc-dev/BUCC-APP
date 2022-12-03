@@ -1,4 +1,3 @@
-import 'package:bucc_app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -30,11 +29,20 @@ class _CustomTextFieldState extends State<CustomTextField> {
           contentPadding:
               EdgeInsets.symmetric(horizontal: 21.0.w, vertical: 21.0.h),
           hintText: widget.hintText,
-          hintStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
-              fontWeight: FontWeight.w500,
-              color: AppThemeColours.lightGrey,
-              fontSize: 12.0.sp),
+          hintStyle: Theme.of(context)
+              .textTheme
+              .bodyText2!
+              .copyWith(fontWeight: FontWeight.w500, fontSize: 12.0.sp),
           border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade200),
+              borderSide: BorderSide(
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? Colors.grey.shade200
+                      : Colors.white.withOpacity(0.1)),
+              borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? Colors.grey.shade200
+                      : Colors.white.withOpacity(0.8)),
               borderRadius: const BorderRadius.all(Radius.circular(10.0)))));
 }

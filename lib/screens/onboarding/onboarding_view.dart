@@ -38,7 +38,9 @@ class _OnboardingViewState extends State<OnboardingView> {
 
                           pref.setBool("showHome", true);
 
-                          Navigator.pushNamed(context, "/onboarding_login");
+                          AppNavigator.navigateToPage(
+                              thePageRouteName: AppRoutes.onboardingLoginScreen,
+                              context: context);
                         },
                         child: Text("Skip",
                             style: CompanionAppTheme.textButtonStyle))),
