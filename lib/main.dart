@@ -1,36 +1,60 @@
-import 'package:bucc_app/view/get_started_view.dart';
-import 'package:bucc_app/view/join_department.dart';
-import 'package:bucc_app/view/login_view.dart';
-import 'package:bucc_app/view/onboarding_login_view.dart';
-import 'package:bucc_app/view/onboarding_view.dart';
-import 'package:bucc_app/view/verify_email_view.dart';
+import 'package:bucc_app/router/router.dart';
+import 'package:bucc_app/screens/home_wrapper.dart';
+import 'package:bucc_app/theme/app_theme.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+// ignore: depend_on_referenced_packages
+import 'screens/onboarding/onboarding_view.dart';
 
-import 'view/user_type_view.dart';
+Future<void> main() async {
+  //! INITIALIZE WIDGETS BINDING
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
-  runApp(const MyApp());
+  //! ONBOARDING STARTS HERE - SHARED PREFERENCES FOR ONBOARDING SCREEN
+  SharedPreferences appPreferences = await SharedPreferences.getInstance();
+
+  //! CHECK IF ONBOARDING SCREEN HAS BEEN VISITED.
+  final bool showHome = appPreferences.getBool("showHome") ?? false;
+
+  runApp(ProviderScope(child: BUCCCompanionApp(showHome: showHome)));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+//! THIS IS USED TO INITIALIZE APP RESOURCES, WHILE THE ONBOARDING SCREEN IS LOADING.
+
+class BUCCCompanionApp extends StatelessWidget {
+  final bool showHome;
+  const BUCCCompanionApp({Key? key, required this.showHome}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'BUCC Companion App',
-      theme: ThemeData(primaryColor: Colors.white),
-      initialRoute: "/",
-      routes: <String, WidgetBuilder>{
-        '/': (_) => const OnboardingView(),
-        '/onboarding_login': (_) => const OnBoardingLoginView(),
-        '/user_type_view': (_) => const UserTypeView(),
-        '/login_view': (_) => const LoginView(),
-        '/get_started_view': (_) => const GetStartedView(),
-        '/join_department_view': (_) => const JoinDepartmentView(),
-        '/verify_email_view': (_) => const VerifyEmailView(),
-      },
-    );
-  }
+  Widget build(BuildContext context) => ScreenUtilInit(
+      minTextAdapt: true,
+      splitScreenMode: true,
+      designSize: const Size(375,
+          812), //! 375 BY 812 - THAT'S THE LAYOUT GIVEN ON THE DESIGN BOARD
+
+      //! BASE WIDGET
+      builder: (context, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: "BUCC Companion App",
+          theme: CompanionAppTheme.appTheme,
+
+          //! SCROLL BEHAVIOUR CLASS, ACCEPTING ONLY TWO TYPES OF SCROLL DEVICES;
+          //! MOUSE AND TOUCH.
+          scrollBehavior: const MaterialScrollBehavior()
+              .copyWith(scrollbars: false, dragDevices: {
+            PointerDeviceKind.mouse,
+            PointerDeviceKind.touch,
+            PointerDeviceKind.stylus,
+            PointerDeviceKind.unknown
+          }),
+
+          //! ROUTING
+          onGenerateRoute: (settings) =>
+              AppNavigator.generateRoute(routeSettings: settings),
+
+          //! HOME
+          home: showHome ? const HomeWrapper() : const OnboardingView()));
 }
