@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:bucc_app/router/router.dart';
 import 'package:bucc_app/router/routes.dart';
 import 'package:bucc_app/screens/widgets/button_component.dart';
-import 'package:bucc_app/screens/widgets/custom_app_bar.dart';
+import 'package:bucc_app/screens/widgets/app_bars/custom_app_bar.dart';
 import 'package:bucc_app/theme/app_theme.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:flutter/material.dart';

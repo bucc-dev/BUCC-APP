@@ -134,8 +134,7 @@ class HomeWrapperAppBar extends StatelessWidget implements PreferredSizeWidget {
                         AppScreenUtils.horizontalSpaceSmall,
 
                         //! ICON
-                        const Icon(Icons.arrow_drop_down_sharp,
-                            size: 12.0, color: Colors.black54)
+                        const Icon(Icons.arrow_drop_down_sharp, size: 12.0)
                       ]))
             ])
           :

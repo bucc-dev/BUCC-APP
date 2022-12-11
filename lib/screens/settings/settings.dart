@@ -1,8 +1,6 @@
 import 'dart:io';
 import 'package:bucc_app/router/router.dart';
 import 'package:bucc_app/router/routes.dart';
-import 'package:bucc_app/screens/settings/change_password/change_password.dart';
-import 'package:bucc_app/screens/settings/report_a_problem/report_a_problem_screen.dart';
 import 'package:bucc_app/screens/settings/widget/main_settings_item_widget.dart';
 import 'package:bucc_app/screens/settings/widget/social_media_widget.dart';
 import 'package:bucc_app/screens/widgets/button_component.dart';
@@ -178,15 +176,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                                 _selectedUserImage = value,
                                 _imageHasValue = true
                               }))
-                      : index == 2
-                          ? Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  const ReportAProblemScreen()))
-                          : index == 1
-                              ? Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ChangePasswordScreen()))
-                              : {},
+                      : index == 1
+                          ? AppNavigator.navigateToPage(
+                              thePageRouteName: AppRoutes.changePassword,
+                              context: context)
+                          : index == 2
+                              ? AppNavigator.navigateToPage(
+                                  thePageRouteName: AppRoutes.reportAProblem,
+                                  context: context)
+                              : AppNavigator.navigateToPage(
+                                  thePageRouteName: AppRoutes.about,
+                                  context: context),
                   theIcon: _mainSettingsIcons.elementAt(index),
                   title: _mainSettingsList.elementAt(index))),
 

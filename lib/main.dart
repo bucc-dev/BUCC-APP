@@ -67,6 +67,6 @@ class BUCCCompanionApp extends ConsumerWidget {
                 AppNavigator.generateRoute(routeSettings: settings),
 
             //! HOME
-            home: showHome ? const OnboardingView() : const OnboardingView()));
+            home: showHome ? const HomeWrapper() : const OnboardingView()));
   }
 }

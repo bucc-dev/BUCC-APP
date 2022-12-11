@@ -1,4 +1,5 @@
 import 'package:bucc_app/screens/notifications/widget/notification_item.dart';
+import 'package:bucc_app/utils/app_fade_animation.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:bucc_app/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
@@ -28,13 +29,19 @@ class AllNotifications extends StatelessWidget {
         //! NOTIFICATIONS
         ...List.generate(
             3,
-            (index) => NotificationItem(
-                isAComment: index.isEven,
-                imageURL: defaultUserImage,
-                index: index,
-                commentedOnYourPost: index.isOdd,
-                isAPost: index == 3,
-                isAnEvent: index == 4)),
+            (index) => AppFadeAnimation(
+                delay: index == 0
+                    ? 1.2
+                    : index == 1
+                        ? 1.4
+                        : 1.6,
+                child: NotificationItem(
+                    isAComment: index.isEven,
+                    imageURL: defaultUserImage,
+                    index: index,
+                    commentedOnYourPost: index.isOdd,
+                    isAPost: index == 3,
+                    isAnEvent: index == 4))),
 
         //! SPACER
         AppScreenUtils.verticalSpaceMedium,
@@ -53,12 +60,18 @@ class AllNotifications extends StatelessWidget {
 
         ...List.generate(
             3,
-            (index) => NotificationItem(
-                isAComment: false,
-                imageURL: defaultUserImage,
-                index: index,
-                commentedOnYourPost: false,
-                isAPost: index == 3,
-                isAnEvent: index == 4))
+            (index) => AppFadeAnimation(
+                delay: index == 0
+                    ? 1.2
+                    : index == 1
+                        ? 1.4
+                        : 1.6,
+                child: NotificationItem(
+                    isAComment: false,
+                    imageURL: defaultUserImage,
+                    index: index,
+                    commentedOnYourPost: false,
+                    isAPost: index == 3,
+                    isAnEvent: index == 4)))
       ]));
 }

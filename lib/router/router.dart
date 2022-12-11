@@ -7,6 +7,9 @@ import 'package:bucc_app/screens/onboarding/widget/onboarding_login_view.dart';
 import 'package:bucc_app/screens/onboarding/onboarding_view.dart';
 import 'package:bucc_app/screens/auth/verification/verify_email_view.dart';
 import 'package:bucc_app/screens/planner/widgets/add_event.dart';
+import 'package:bucc_app/screens/settings/about/about_screen.dart';
+import 'package:bucc_app/screens/settings/change_password/change_password.dart';
+import 'package:bucc_app/screens/settings/report_a_problem/report_a_problem_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppNavigator {
@@ -91,6 +94,27 @@ class AppNavigator {
             routeName: routeSettings.name,
             args: routeSettings.arguments,
             view: const AddEvent());
+
+      //! CHANGE PASSWORD
+      case AppRoutes.changePassword:
+        return _getPageRoute(
+            routeName: routeSettings.name,
+            args: routeSettings.arguments,
+            view: const ChangePasswordScreen());
+
+      //! REPORT A PROBLEM
+      case AppRoutes.reportAProblem:
+        return _getPageRoute(
+            routeName: routeSettings.name,
+            args: routeSettings.arguments,
+            view: const ReportAProblemScreen());
+
+      //! REPORT A PROBLEM
+      case AppRoutes.about:
+        return _getPageRoute(
+            routeName: routeSettings.name,
+            args: routeSettings.arguments,
+            view: const AboutScreen());
 
       default:
         return MaterialPageRoute(

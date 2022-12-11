@@ -19,4 +19,9 @@ class AppRoutes {
 
   //! HOME SCREEN
   static const String homeScreenWrapper = "homeScreenWrapper";
+
+  //! SETTINGS
+  static const String changePassword = "changePassword";
+  static const String reportAProblem = "reportAProblem";
+  static const String about = "about";
 }

@@ -14,13 +14,12 @@ class CommentsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.white,
           centerTitle: true,
           elevation: 4.0.h,
           automaticallyImplyLeading: true,
           leading: IconButton(
               onPressed: () => Navigator.of(context).pop(),
-              icon: const Icon(Icons.arrow_back, color: Colors.black54)),
+              icon: const Icon(Icons.arrow_back)),
           title:
               Text("Comments", style: Theme.of(context).textTheme.bodyText1)),
 

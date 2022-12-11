@@ -9,7 +9,7 @@ class PlannerScreen extends StatefulWidget {
 }
 
 class _PlannerScreenState extends State<PlannerScreen> {
-  List _listOfEvents = [];
+  final List _listOfEvents = [];
   @override
   Widget build(BuildContext context) => _listOfEvents.isEmpty
       ? const NoEvents()

@@ -24,7 +24,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) => TextFormField(
       maxLines: widget.maxLines,
       controller: widget.controller,
-      onChanged: (value) => widget.onChanged!(),
+      //onChanged: (value) => widget.onChanged!(),
+      onSaved: (newValue) {
+        FocusScope.of(context).unfocus();
+      },
       decoration: InputDecoration(
           contentPadding:
               EdgeInsets.symmetric(horizontal: 21.0.w, vertical: 21.0.h),

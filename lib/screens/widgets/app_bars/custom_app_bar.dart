@@ -1,6 +1,4 @@
 import 'package:bucc_app/theme/app_theme.dart';
-import 'package:bucc_app/utils/constants/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,12 +12,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) => AppBar(
       elevation: 4.0.sp,
       centerTitle: true,
-
-      //! LEADING
-      leading: IconButton(
-          icon: Icon(CupertinoIcons.arrow_left, size: 18.0.sp),
-          color: black,
-          onPressed: () => Navigator.of(context).pop()),
 
       //! TITLE
       title: RichText(
@@ -42,7 +34,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     .headline2!
                     .copyWith(color: AppThemeColours.primaryColour)),
 
-            //! ANION
+            //! ANION3
             TextSpan(
                 text: "ANION", style: Theme.of(context).textTheme.headline2)
           ])));

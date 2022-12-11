@@ -23,10 +23,10 @@ class MainSettingsItemWidget extends StatelessWidget {
           margin: EdgeInsets.symmetric(vertical: 4.0.h),
           decoration: BoxDecoration(
               color: const Color(0xFFE5EBFF),
-              borderRadius: BorderRadius.circular(4.0.r)),
+              borderRadius: BorderRadius.circular(8.0.r)),
           child: Row(children: [
             //! ICON
-            Icon(theIcon, size: 16.0.sp, color: Colors.black54),
+            Icon(theIcon, size: 18.0.sp, color: Colors.black54),
 
             //! SPACER
             AppScreenUtils.horizontalSpaceSmall,

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bucc_app/screens/widgets/button_component.dart';
 import 'package:bucc_app/screens/widgets/custom_textfield.dart';
 import 'package:bucc_app/screens/widgets/successful_response.dart';
