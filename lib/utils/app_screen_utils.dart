@@ -11,7 +11,7 @@ class AppScreenUtils {
   //! SPACERS
   //! HORIZONTAL SPACES
   static Widget horizontalSpaceSmall = SizedBox(width: 10.0.w);
-  static Widget horizontalSpaceMedium = SizedBox(width: 30.0.w);
+  static Widget horizontalSpaceMedium = SizedBox(width: 20.0.w);
   static Widget horizontalSpaceLarge = SizedBox(width: 30.0.w);
 
   //! VERTICAL SPACES

@@ -1,29 +1,29 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:bucc_app/utils/enums.dart';
+import 'package:bucc_app/utils/type_defs.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ConnectivityService {
-  // Creates a single instance by calling the '_internal' constructor.
+  //! Creates a single instance by calling the '_internal' constructor.
   static final ConnectivityService _connectionStatus =
       ConnectivityService._internal();
   ConnectivityService._internal();
 
-  // Retrieve the instance through the app.
+  //! Retrieve the instance through the app.
   static Future<ConnectivityService> getInstance() =>
       Future.value(_connectionStatus);
 
-  // Flags to keep track of connection state.
+  //! Flags to keep track of connection state.
   bool hasConnection = false;
   ConnectivityStatus networkStatus = ConnectivityStatus.offline;
 
-  // Allow subscription to connection changes.
+  //! Allow subscription to connection changes.
   StreamController<ConnectivityStatus> connectionChangeController =
       StreamController<ConnectivityStatus>.broadcast();
 
   final Connectivity _connectivity = Connectivity();
 
-  // Listen for changes on initialization.
+  //! Listen for changes on initialization.
   void initialize() {
     _connectivity.onConnectivityChanged.listen(_connectionChange);
     checkConnection();
@@ -36,7 +36,7 @@ class ConnectivityService {
     checkConnection();
   }
 
-  // Function that does the actual connection tests.
+  //! Function that does the actual connection tests.
   Future<bool> checkConnection() async {
     const prevStatus = ConnectivityStatus.offline;
 
@@ -54,7 +54,7 @@ class ConnectivityService {
       networkStatus = ConnectivityStatus.offline;
     }
 
-    // Status change sends out an update to all listeners.
+    //! Status change sends out an update to all listeners.
     if (prevStatus != networkStatus) {
       connectionChangeController.add(networkStatus);
       onChange();
@@ -63,7 +63,7 @@ class ConnectivityService {
     return hasConnection;
   }
 
-  // Helper method to listen to continuous changes after initialization
+  //! Helper method to listen to continuous changes after initialization
   void onChange() {
     _connectivity.onConnectivityChanged.listen(_connectionChange);
   }

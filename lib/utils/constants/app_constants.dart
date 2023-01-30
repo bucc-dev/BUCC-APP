@@ -7,12 +7,11 @@ const apiBaseUrl = '';
 const serverErrorMessage = 'An error occurred. Please try again.';
 const networkErrorMessage = 'Please check your internet'
     ' connection and try again';
+
 //* Defaults
 const defaultAvatarAsset = '';
 const defaultNetworkImage = '';
-const mainAppBarLogo = AssetImage(
-  '',
-);
+const mainAppBarLogo = AssetImage('');
 
 const String onboardingImage1 = "assets/Images/onboarding_1.svg";
 const String onboardingImage2 = "assets/Images/onboarding_2.svg";
