@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:bucc_app/theme/app_theme.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
+import 'package:bucc_app/utils/constants/colors.dart';
+import 'package:bucc_app/utils/type_defs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -71,5 +75,100 @@ class AppFunctionalUtils {
             : ImageSource.gallery);
 
     return imageOrPhoto;
+  }
+
+  //!
+//! SHOW BANNER
+  static showBanner(
+      {required BuildContext context,
+      required String theMessage,
+      required NotificationType theType}) {
+    ScaffoldMessenger.of(context).showMaterialBanner(MaterialBanner(
+        elevation: 4.0.sp,
+        padding: EdgeInsets.symmetric(vertical: 20.0.h, horizontal: 25.0.w),
+        forceActionsBelow: true,
+        backgroundColor: theType == NotificationType.failure
+            ? Colors.red.shade400
+            : theType == NotificationType.success
+                ? Colors.green.shade400
+                : purple,
+
+        //! THE CONTENT
+        content: Text(theMessage,
+            style: TextStyle(
+                fontSize: 14.sp, fontWeight: FontWeight.w500, color: white)),
+
+        //! ACTIONS - DISMISS BUTTON
+        actions: [
+          SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                  onPressed: () =>
+                      ScaffoldMessenger.of(context).hideCurrentMaterialBanner(),
+                  style: ElevatedButton.styleFrom(
+                      elevation: 0.0,
+                      padding: const EdgeInsets.all(12.0),
+                      shadowColor: Colors.transparent,
+                      backgroundColor: Colors.white24,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(21.0.r))),
+                  child: Text("Dismiss",
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500,
+                          color: white))))
+        ]));
+
+    //! DISMISS AFTER 2 SECONDS
+    Timer(const Duration(milliseconds: 2500),
+        () => ScaffoldMessenger.of(context).hideCurrentMaterialBanner());
+  }
+
+//! FETCH MONTH NAME
+  static String getMonth({required DateTime dateTime}) {
+    String theMonth = "";
+    switch (dateTime.month) {
+      case 1:
+        theMonth = "January";
+        return theMonth;
+      case 2:
+        theMonth = "February";
+        return theMonth;
+      case 3:
+        theMonth = "March";
+        return theMonth;
+      case 4:
+        theMonth = "April";
+        return theMonth;
+      case 5:
+        theMonth = "May";
+        return theMonth;
+      case 6:
+        theMonth = "June";
+        return theMonth;
+      case 7:
+        theMonth = "July";
+        return theMonth;
+      case 8:
+        theMonth = "August";
+        return theMonth;
+      case 9:
+        theMonth = "September";
+        return theMonth;
+      case 10:
+        theMonth = "October";
+        return theMonth;
+      case 11:
+        theMonth = "November";
+        return theMonth;
+      case 12:
+        theMonth = "December";
+        return theMonth;
+
+      //! DEFAULT VALUES
+      default:
+        theMonth = "Could not fetch the month";
+        return theMonth;
+    }
   }
 }

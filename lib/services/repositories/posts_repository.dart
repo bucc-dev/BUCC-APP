@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart' as http;
 
-final Provider<PostRepository> profileRepositoryProvider =
+final Provider<PostRepository> postsRepositoryProvider =
     Provider((ref) => PostRepository());
 
 class PostRepository {

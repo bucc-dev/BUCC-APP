@@ -92,7 +92,7 @@ class AuthRepository {
               "Authorization": "Bearer ${userToken?.token}"
             })
             ..body = jsonEncode(
-                {"oldPassword": oldPassword, "newPassword": newPassword});
+                {"old_password": oldPassword, "new_password": newPassword});
 
       http.StreamedResponse response = await request.send();
 
