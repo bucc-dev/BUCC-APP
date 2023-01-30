@@ -1,11 +1,8 @@
 // ignore_for_file: deprecated_member_use
-
-import 'package:bucc_app/utils/extentions/string_extension.dart';
+import 'package:bucc_app/utils/extentions/app_extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
-
 import 'package:url_launcher/url_launcher.dart';
-
 import 'constants/app_constants.dart';
 
 ImageProvider makeNetworkImage(String? link) {

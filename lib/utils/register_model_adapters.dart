@@ -1,6 +1,6 @@
 import 'package:bucc_app/services/model/auth/token_model.dart';
 import 'package:bucc_app/services/model/auth/user_model.dart';
-import 'package:bucc_app/services/model/event_model.dart';
+import 'package:bucc_app/services/model/event/event_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
