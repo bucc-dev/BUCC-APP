@@ -10,6 +10,8 @@ class CustomTextField extends StatefulWidget {
   final TextInputType? textInputType;
   final bool? obscureText;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
+  final bool? isHomeScreen;
   const CustomTextField(
       {Key? key,
       required this.hintText,
@@ -18,7 +20,9 @@ class CustomTextField extends StatefulWidget {
       this.onChanged,
       this.textInputType,
       this.obscureText,
-      this.suffixIcon})
+      this.suffixIcon,
+      this.isHomeScreen,
+      this.prefixIcon})
       : super(key: key);
 
   final String hintText;
@@ -36,7 +40,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       obscuringCharacter: ".",
       style: Theme.of(context)
           .textTheme
-          .bodyLarge!
+          .bodyMedium!
           .copyWith(fontWeight: FontWeight.w400, fontSize: 14.0.sp),
 
       //! ON SAVED
@@ -44,8 +48,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
       //! DECORATION
       decoration: InputDecoration(
-          contentPadding:
-              EdgeInsets.symmetric(horizontal: 25.0.w, vertical: 18.0.h),
+          contentPadding: EdgeInsets.symmetric(
+              horizontal: 25.0.w,
+              vertical: widget.isHomeScreen == true ? 1.0.h : 18.0.h),
 
           //! HINT & HINT STYLE
           hintText: widget.hintText,
@@ -53,6 +58,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
               fontWeight: FontWeight.w500,
               color: AppThemeColours.thirdGrey,
               fontSize: 12.0.sp),
+
+          //! PREFIX ICON
+          prefixIcon: widget.prefixIcon,
+          prefixIconColor: AppThemeColours.lightGrey,
 
           //! SUFFIX ICON
           suffixIcon: widget.suffixIcon,
@@ -62,20 +71,24 @@ class _CustomTextFieldState extends State<CustomTextField> {
           border: OutlineInputBorder(
               borderSide: BorderSide(
                   color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.grey.shade200
+                      ? widget.isHomeScreen == true
+                          ? AppThemeColours.lightGrey
+                          : Colors.grey.shade200
                       : Colors.white.withOpacity(0.1)),
-              borderRadius: BorderRadius.all(Radius.circular(10.0.r))),
+              borderRadius: BorderRadius.all(Radius.circular(18.0.r))),
 
           //! FOCUSED BORDER
           focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppThemeColours.lightBlue),
-              borderRadius: BorderRadius.all(Radius.circular(10.0.r))),
+              borderRadius: BorderRadius.all(Radius.circular(18.0.r))),
 
           //! ENABLED BORDER
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                   color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.grey.shade200
+                      ? widget.isHomeScreen == true
+                          ? AppThemeColours.lightGrey
+                          : Colors.grey.shade200
                       : Colors.white.withOpacity(0.8)),
-              borderRadius: BorderRadius.all(Radius.circular(10.0.r)))));
+              borderRadius: BorderRadius.all(Radius.circular(18.0.r)))));
 }

@@ -1,6 +1,4 @@
 import 'package:bucc_app/router/router.dart';
-import 'package:bucc_app/screens/auth/login/login_view.dart';
-import 'package:bucc_app/screens/auth/register/register_screen.dart';
 import 'package:bucc_app/screens/home_wrapper.dart';
 import 'package:bucc_app/theme/app_theme.dart';
 import 'package:bucc_app/theme/theme_preferences.dart';
@@ -70,6 +68,6 @@ class BUCCCompanionApp extends ConsumerWidget {
                 AppNavigator.generateRoute(routeSettings: settings),
 
             //! HOME
-            home: showHome ? const RegisterScreen() : OnboardingView()));
+            home: showHome ? const HomeWrapper() : OnboardingView()));
   }
 }

@@ -5,9 +5,10 @@ import 'package:bucc_app/utils/constants/app_constants.dart';
 import 'package:bucc_app/utils/constants/colors.dart';
 import 'package:bucc_app/screens/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeWrapperAppBar extends StatelessWidget implements PreferredSizeWidget {
+class HomeWrapperAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final int screenIndex;
   const HomeWrapperAppBar({Key? key, required this.screenIndex})
       : super(key: key);
@@ -16,12 +17,12 @@ class HomeWrapperAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => Size.fromHeight(screenIndex == 3 ? 55 : 65);
 
   @override
-  Widget build(BuildContext context) => AppBar(
-      elevation: 4.0,
+  Widget build(BuildContext context, WidgetRef ref) => AppBar(
+      elevation: 0.5,
       automaticallyImplyLeading: false,
       centerTitle: true,
       shadowColor: Theme.of(context).brightness == Brightness.light
-          ? AppThemeColours.primaryColour.withOpacity(0.1)
+          ? AppThemeColours.thirdGrey
           : Colors.white.withOpacity(0.1),
       title: screenIndex == 1
           ?
@@ -87,7 +88,7 @@ class HomeWrapperAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 child: Text("All Notifications",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .copyWith(
                                             fontWeight: FontWeight.w600)))),
 
@@ -100,7 +101,7 @@ class HomeWrapperAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 child: Text("Executive Notifications",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .copyWith(
                                             fontWeight: FontWeight.w600)))),
 
@@ -113,7 +114,7 @@ class HomeWrapperAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 child: Text("Class Notifications",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .copyWith(
                                             fontWeight: FontWeight.w600))))
                       ],
@@ -125,7 +126,7 @@ class HomeWrapperAppBar extends StatelessWidget implements PreferredSizeWidget {
                         Text("Class Notifications",
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText1!
+                                .bodyLarge!
                                 .copyWith(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14.0.sp)),
@@ -144,7 +145,7 @@ class HomeWrapperAppBar extends StatelessWidget implements PreferredSizeWidget {
               ? Text("Profile",
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText1!
+                      .bodyLarge!
                       .copyWith(fontSize: 16.0.sp, fontWeight: FontWeight.w600))
               :
 
@@ -174,6 +175,9 @@ class HomeWrapperAppBar extends StatelessWidget implements PreferredSizeWidget {
                               margin: EdgeInsets.only(top: 10.0.h),
                               padding: EdgeInsets.symmetric(vertical: 2.0.h),
                               child: const CustomTextField(
+                                  isHomeScreen: true,
+                                  maxLines: 1,
+                                  prefixIcon: Icon(Icons.search),
                                   hintText: "Search Companion")))
                     ]));
 }

@@ -1,3 +1,4 @@
+import 'package:bucc_app/theme/app_theme.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:bucc_app/utils/constants/app_constants.dart';
 import 'package:bucc_app/utils/constants/colors.dart';
@@ -10,7 +11,7 @@ class PostHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-      padding: AppScreenUtils.appMainPadding,
+      padding: EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 22.0.w),
       child: Column(children: [
         Row(children: [
           //! USER IMAGE
@@ -27,27 +28,25 @@ class PostHeader extends StatelessWidget {
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             //! OWNER
             Text("Blessed Madukoma",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14.0.sp)),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    height: 1.8.h,
+                    fontSize: 14.0.sp,
+                    fontWeight: FontWeight.w500)),
 
             //! POSITION
             Text("Bucc president",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 11.0.sp)),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 11.0.sp,
+                    fontWeight: FontWeight.w500,
+                    color: AppThemeColours.lightGrey)),
 
             //! SPACER
             AppScreenUtils.verticalSpaceSmall,
 
             //! DATE
             Text("3w",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 10.0.sp))
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 10.0.sp, color: AppThemeColours.lightGrey))
           ])
         ]),
 
@@ -57,9 +56,7 @@ class PostHeader extends StatelessWidget {
         //! BRIEF POST DESCRIPTION
         Text(
             "Great BUCC! \n\nWe’re having a BUCC BI - Weekly jogging for females, the first of it’s kind.",
-            style: Theme.of(context)
-                .textTheme
-                .bodyText2!
-                .copyWith(fontSize: 12.0.sp))
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                height: 1.3.h, fontWeight: FontWeight.w500, fontSize: 12.0.sp))
       ]));
 }

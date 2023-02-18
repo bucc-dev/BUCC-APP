@@ -1,3 +1,4 @@
+import 'package:bucc_app/theme/app_theme.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:bucc_app/utils/constants/app_constants.dart';
 import 'package:bucc_app/utils/constants/colors.dart';
@@ -9,7 +10,7 @@ class CommentPageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-      padding: AppScreenUtils.appMainPadding,
+      padding: AppScreenUtils.appMainPadding.copyWith(top: 12.0.h),
       child: Row(children: [
         //! USER IMAGE
         CircleAvatar(
@@ -21,14 +22,24 @@ class CommentPageHeader extends StatelessWidget {
         AppScreenUtils.horizontalSpaceSmall,
 
         //! BRIEF POST DESCRIPTION
-        Text(
-            "Great BUCC! \n\nWe’re having a BUCC BI - Weekly jogging \nfor females, the first of it’s kind.",
-            overflow: TextOverflow.visible,
-            maxLines: 10,
-            softWrap: true,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1!
-                .copyWith(height: 1.3.h, fontSize: 12.0.sp))
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+              "Great BUCC! \n\nWe’re having a BUCC BI - Weekly jogging \nfor females, the first of it’s kind.",
+              overflow: TextOverflow.visible,
+              maxLines: 10,
+              softWrap: true,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(height: 1.3.h, fontSize: 12.0.sp)),
+
+          //! SPACER
+          AppScreenUtils.verticalSpaceSmall,
+
+          //! DATE
+          Text("3w",
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontSize: 10.0.sp, color: AppThemeColours.lightGrey))
+        ])
       ]));
 }
