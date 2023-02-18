@@ -1,20 +1,21 @@
 import 'package:bucc_app/router/router.dart';
 import 'package:bucc_app/router/routes.dart';
+import 'package:bucc_app/screens/widgets/button_component.dart';
 import 'package:bucc_app/theme/app_theme.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:bucc_app/utils/constants/app_constants.dart';
 import 'package:bucc_app/screens/widgets/app_bars/custom_app_bar.dart';
+import 'package:bucc_app/utils/extentions/app_extensions.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../widgets/button_component.dart';
 
 class VerifyEmailView extends StatelessWidget {
   const VerifyEmailView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(onPressed: () => Navigator.of(context).pop()),
 
       //! BODY
       body: SafeArea(
@@ -35,51 +36,51 @@ class VerifyEmailView extends StatelessWidget {
 
                     //! NOTE 1
                     Text("Check your email to verify",
-                        style: Theme.of(context).textTheme.headline3),
+                        style: Theme.of(context).textTheme.displaySmall),
 
                     //! SPACER
                     AppScreenUtils.verticalSpaceMedium,
 
-                    Text("Please click the link in the verification email sent",
-                        style: Theme.of(context).textTheme.bodyText1),
+                    /* Text("Please click the link in the verification email sent",
+                        style: Theme.of(context).textTheme.bodyMedium), */
 
                     RichText(
+                        textAlign: TextAlign.center,
                         text: TextSpan(
-                            text: "to ",
+                            text:
+                                "Please click the link in the verification email sent to ",
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2!
+                                .bodyMedium!
                                 .copyWith(color: AppThemeColours.lightGrey),
                             children: [
-                          TextSpan(
-                              text: "nginikosi@yahoo.com. ",
-                              style: Theme.of(context).textTheme.bodyText2),
-                          TextSpan(
-                              text: "If this email address is",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2!
-                                  .copyWith(color: AppThemeColours.lightGrey))
-                        ])),
-
-                    //! BUTTON - EDIT IT HERE
-                    InkWell(
-                        onTap: () {},
-                        child: RichText(
-                            text: TextSpan(
-                                text: "incorrect you can edit ",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .copyWith(color: AppThemeColours.lightGrey),
-                                children: [
+                              TextSpan(
+                                  text: "nginikosi@yahoo.com. ",
+                                  style:
+                                      Theme.of(context).textTheme.bodyMedium),
+                              TextSpan(
+                                  text: "If this email address is",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                          color: AppThemeColours.lightGrey)),
+                              TextSpan(
+                                  text: "incorrect you can edit ",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                          color: AppThemeColours.lightGrey)),
                               TextSpan(
                                   text: "here",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyText2!
-                                      .copyWith(color: AppThemeColours.red))
-                            ]))),
+                                      .bodyMedium!
+                                      .copyWith(color: AppThemeColours.red),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {})
+                            ])),
 
                     //! SPACER
                     const Spacer(),
@@ -88,22 +89,22 @@ class VerifyEmailView extends StatelessWidget {
                     RichText(
                         text: TextSpan(
                             text: "Didn't receive it?",
-                            style: Theme.of(context).textTheme.bodyText2,
+                            style: Theme.of(context).textTheme.bodyMedium,
                             children: [
                           TextSpan(
                               text: " Resend email",
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2!
+                                  .bodyMedium!
                                   .copyWith(color: AppThemeColours.lightGrey)),
                           TextSpan(
                               text: " or",
-                              style: Theme.of(context).textTheme.bodyText2),
+                              style: Theme.of(context).textTheme.bodyMedium),
                           TextSpan(
                               text: " contact support",
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2!
+                                  .bodyMedium!
                                   .copyWith(color: AppThemeColours.lightGrey))
                         ])),
 
@@ -124,6 +125,6 @@ class VerifyEmailView extends StatelessWidget {
                         text: "Next"),
 
                     //! SPACER
-                    AppScreenUtils.verticalSpaceSmall
+                    AppScreenUtils.verticalSpaceMedium
                   ]))));
 }

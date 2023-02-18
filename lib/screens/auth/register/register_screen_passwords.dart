@@ -1,6 +1,5 @@
 import 'package:bucc_app/router/router.dart';
 import 'package:bucc_app/router/routes.dart';
-import 'package:bucc_app/screens/auth/register/register_screen_passwords.dart';
 import 'package:bucc_app/screens/widgets/button_component.dart';
 import 'package:bucc_app/screens/widgets/custom_textfield.dart';
 import 'package:bucc_app/theme/app_theme.dart';
@@ -10,9 +9,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
-  static final ValueNotifier<TextEditingController> _emailController =
+class RegisterScreenPassword extends StatelessWidget {
+  final String userEmail;
+  const RegisterScreenPassword({Key? key, required this.userEmail})
+      : super(key: key);
+  static final ValueNotifier<TextEditingController> _passwordController =
+      ValueNotifier(TextEditingController());
+  static final ValueNotifier<TextEditingController> _confirmPasswordController =
       ValueNotifier(TextEditingController());
 
   @override
@@ -35,13 +38,20 @@ class RegisterScreen extends StatelessWidget {
                   //! SPACER
                   AppScreenUtils.verticalSpaceMedium,
 
-                  //! MATRIC NUMBER
+                  //! PASSWORD
                   CustomTextField(
-                      controller: _emailController.value,
-                      hintText: "Matric Number or Email"),
+                      controller: _passwordController.value,
+                      maxLines: 1,
+                      hintText: "New Password"),
 
                   //! SPACER
                   AppScreenUtils.verticalSpaceMedium,
+
+                  //! PASSWORD
+                  CustomTextField(
+                      maxLines: 1,
+                      controller: _confirmPasswordController.value,
+                      hintText: "Confirm password"),
 
                   //! SPACER
                   const Spacer(),
@@ -78,13 +88,9 @@ class RegisterScreen extends StatelessWidget {
 
                   //! PROCEED
                   ButtonComponent(
-                      onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => RegisterScreenPassword(
-                              userEmail: _emailController.value.value.text
-                                  .trim()))) /* AppNavigator.navigateToPage(
+                      onPressed: () => AppNavigator.navigateToPage(
                           thePageRouteName: AppRoutes.verifyEmail,
-                          context: context) */
-                      ,
+                          context: context),
                       text: "Proceed"),
 
                   //! SPACER

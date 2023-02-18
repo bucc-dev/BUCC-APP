@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+// ignore_for_file: library_private_types_in_public_api
 import 'package:bucc_app/router/router.dart';
 import 'package:bucc_app/router/routes.dart';
 import 'package:bucc_app/screens/widgets/button_component.dart';
@@ -7,18 +6,19 @@ import 'package:bucc_app/screens/widgets/app_bars/custom_app_bar.dart';
 import 'package:bucc_app/theme/app_theme.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 
-class VerifyCode extends StatefulWidget {
+class VerifyCode extends ConsumerStatefulWidget {
   const VerifyCode({super.key});
 
   @override
-  State<VerifyCode> createState() => _VerifyCodeState();
+  _VerifyCodeState createState() => _VerifyCodeState();
 }
 
-class _VerifyCodeState extends State<VerifyCode> {
+class _VerifyCodeState extends ConsumerState<VerifyCode> {
   final pinController = TextEditingController();
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
@@ -46,7 +46,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                     : Colors.white)));
 
     return Scaffold(
-        appBar: const CustomAppBar(),
+        appBar: CustomAppBar(onPressed: () => Navigator.of(context).pop()),
 
         //! BODY
         body: SafeArea(
@@ -61,7 +61,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                       //! NOTICE
                       Center(
                           child: Text("Enter the verification code",
-                              style: Theme.of(context).textTheme.headline3)),
+                              style: Theme.of(context).textTheme.displaySmall)),
 
                       //! SPACER
                       AppScreenUtils.verticalSpaceLarge,
@@ -84,24 +84,18 @@ class _VerifyCodeState extends State<VerifyCode> {
                               validator: (value) => "",
 
                               //! WHEN DATA IS SEEN IN CLIP BOARD
-                              onClipboardFound: (value) {
-                                log('onClipboardFound: $value');
-                                pinController.setText(value);
-                              },
+                              onClipboardFound: (value) =>
+                                  pinController.setText(value),
 
                               //! ADD HAPTIC FEED / LITTLE VIBRATIONS
                               hapticFeedbackType:
                                   HapticFeedbackType.lightImpact,
 
                               //! WHEN COMPLETED
-                              onCompleted: (pin) {
-                                log('onCompleted: $pin');
-                              },
+                              onCompleted: (pin) {},
 
                               //! IF VALUE IS CHANGED
-                              onChanged: (value) {
-                                log('onChanged: $value');
-                              },
+                              onChanged: (value) {},
 
                               //! CURSOR STYLING
                               cursor: Column(
@@ -123,23 +117,21 @@ class _VerifyCodeState extends State<VerifyCode> {
 
                               //! THEME FOR WHEN PIN PAD INPUT HAS BEEN SUBMITTED
                               submittedPinTheme: defaultPinTheme.copyWith(
-                                  decoration: defaultPinTheme.decoration!
-                                      .copyWith(
-                                          color: AppThemeColours
-                                              .primaryColourWitOpacity,
-                                          border: Border.all(
-                                              color: AppThemeColours
-                                                  .accentColour))),
+                                  decoration: defaultPinTheme.decoration!.copyWith(
+                                      color: AppThemeColours
+                                          .primaryColourWitOpacity,
+                                      border: Border.all(
+                                          color:
+                                              AppThemeColours.accentColour))),
 
                               //! ERROR THEME
                               errorTextStyle: Theme.of(context)
                                   .textTheme
-                                  .bodyText2!
+                                  .bodyMedium!
                                   .copyWith(color: AppThemeColours.red),
                               errorPinTheme: defaultPinTheme.copyBorderWith(
-                                  border: Border.all(
-                                      width: 1..sp,
-                                      color: AppThemeColours.red)))),
+                                  border:
+                                      Border.all(width: 1..sp, color: AppThemeColours.red)))),
 
                       //! SPACER
                       const Spacer(),
@@ -170,7 +162,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                           text: "Next"),
 
                       //! SPACER
-                      AppScreenUtils.verticalSpaceSmall
+                      AppScreenUtils.verticalSpaceMedium
                     ])))));
   }
 }
