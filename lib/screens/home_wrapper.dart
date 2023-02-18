@@ -3,6 +3,7 @@ import 'package:bucc_app/router/routes.dart';
 import 'package:bucc_app/screens/notifications/notifications.dart';
 import 'package:bucc_app/screens/planner/planner.dart';
 import 'package:bucc_app/screens/settings/settings.dart';
+import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:bucc_app/utils/constants/colors.dart';
 import 'package:bucc_app/screens/widgets/app_bars/home_wrapper_app_bar.dart';
 import 'package:bucc_app/screens/home/home.dart';
@@ -59,13 +60,14 @@ class _HomeWrapperState extends State<HomeWrapper>
           Expanded(child: _pages.elementAt(currentPageIndex)),
 
           //! TAB NOTIFIER
-          TabBar(
-              controller: _tabController,
-              indicatorColor: purple,
-              indicatorWeight: 3.0.h,
-              indicatorSize: TabBarIndicatorSize.tab,
-              physics: const BouncingScrollPhysics(),
-              tabs: _pages.map((page) => const SizedBox.shrink()).toList())
+          IgnorePointer(
+              child: TabBar(
+                  controller: _tabController,
+                  indicatorColor: purple,
+                  indicatorWeight: 3.0.h,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  physics: const NeverScrollableScrollPhysics(),
+                  tabs: _pages.map((page) => const SizedBox.shrink()).toList()))
         ])),
 
         //! FLOATING ACTION BUTTON

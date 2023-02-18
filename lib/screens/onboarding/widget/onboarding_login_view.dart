@@ -1,11 +1,14 @@
 import 'package:bucc_app/router/router.dart';
 import 'package:bucc_app/router/routes.dart';
+import 'package:bucc_app/theme/app_theme.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:bucc_app/utils/constants/app_constants.dart';
 import 'package:bucc_app/utils/constants/colors.dart';
 import 'package:bucc_app/screens/widgets/button_component.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class OnBoardingLoginView extends StatelessWidget {
   const OnBoardingLoginView({Key? key}) : super(key: key);
@@ -22,9 +25,6 @@ class OnBoardingLoginView extends StatelessWidget {
                     //! IMAGE
                     Expanded(
                         flex: 3, child: SvgPicture.asset(onboardingImage1)),
-
-                    //! SPACER
-                    const Spacer(),
 
                     //! BUCC
                     Center(
@@ -78,7 +78,16 @@ class OnBoardingLoginView extends StatelessWidget {
                         onPressed: () => AppNavigator.navigateToPage(
                             thePageRouteName: AppRoutes.login,
                             context: context),
-                        text: "Login"),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppThemeColours.white,
+                            side: BorderSide(
+                                width: 1.0.sp,
+                                color: AppThemeColours.lightBlue)),
+                        textStyle: GoogleFonts.montserrat(
+                            fontWeight: FontWeight.w600,
+                            color: AppThemeColours.lightBlue,
+                            fontSize: 14.0.sp),
+                        text: "Log in"),
 
                     AppScreenUtils.verticalSpaceMedium
                   ]))));

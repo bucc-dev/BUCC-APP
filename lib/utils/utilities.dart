@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+/* // ignore_for_file: deprecated_member_use
 import 'package:bucc_app/utils/extentions/app_extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
@@ -35,3 +35,4 @@ Future<bool> canLaunchUrl(String url) async {
   var canBeLaunched = await canLaunch(url);
   return canBeLaunched;
 }
+ */

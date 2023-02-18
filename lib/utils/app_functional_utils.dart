@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bucc_app/theme/app_theme.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:bucc_app/utils/constants/colors.dart';
@@ -7,6 +6,7 @@ import 'package:bucc_app/utils/type_defs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppFunctionalUtils {
   //! SHOW DIALOGUE
@@ -77,7 +77,7 @@ class AppFunctionalUtils {
     return imageOrPhoto;
   }
 
-  //!
+//!
 //! SHOW BANNER
   static showBanner(
       {required BuildContext context,
@@ -170,5 +170,13 @@ class AppFunctionalUtils {
         theMonth = "Could not fetch the month";
         return theMonth;
     }
+  }
+
+  //!
+  //! SHARED PREF
+  static Future<void> saveShowHomePref() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+
+    pref.setBool("showHome", true);
   }
 }

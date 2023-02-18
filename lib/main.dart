@@ -54,7 +54,7 @@ class BUCCCompanionApp extends ConsumerWidget {
                     ? ThemeMode.dark
                     : ThemeMode.system,
 
-            //! SCROLL BEHAVIOUR CLASS, ACCEPTING FOUR TYPES OF SCROLL DEVICES;
+            //! SCROLL BEHAVIOR CLASS, ACCEPTING FOUR TYPES OF SCROLL DEVICES;
             scrollBehavior: const MaterialScrollBehavior()
                 .copyWith(scrollbars: false, dragDevices: {
               PointerDeviceKind.mouse,
@@ -68,6 +68,6 @@ class BUCCCompanionApp extends ConsumerWidget {
                 AppNavigator.generateRoute(routeSettings: settings),
 
             //! HOME
-            home: showHome ? const HomeWrapper() : const OnboardingView()));
+            home: showHome ? const HomeWrapper() : OnboardingView()));
   }
 }

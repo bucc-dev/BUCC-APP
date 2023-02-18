@@ -24,14 +24,8 @@ class CompanionAppTheme {
 
       //! OTHER COLOURS
       shadowColor: AppThemeColours.shadowColour,
-      backgroundColor: AppThemeColours.backgroundColour,
       scaffoldBackgroundColor: AppThemeColours.scaffoldBackgroundColour,
       splashColor: AppThemeColours.splashColour,
-
-      //! COLOUR SCHEME
-      colorScheme: ColorScheme.fromSwatch().copyWith(
-          brightness: Brightness.light,
-          secondary: AppThemeColours.accentColour),
 
       //! APP BAR
       appBarTheme: AppBarTheme(
@@ -62,27 +56,25 @@ class CompanionAppTheme {
       //! TEXT THEMES
       textTheme: TextTheme(
               //! HEADER TEXTS
-              headline1: GoogleFonts.montserrat(
+              displayLarge: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
                   fontSize: 21.0.sp,
                   color: AppThemeColours.headerColour),
-              headline2: GoogleFonts.montserrat(
+              displayMedium: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
                   fontSize: 18.0.sp,
                   color: AppThemeColours.headerColour),
               //! SUBHEADER TEXTS - TYPE 2
-              headline3: GoogleFonts.montserrat(
+              displaySmall: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0.sp,
                   color: AppThemeColours.headerColour),
 
               //! BODY TEXT
-              bodyText1:
-                  GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: AppThemeColours.bodyTextColour, fontSize: 13.0.sp)
-                      .copyWith(overflow: TextOverflow.visible),
-              bodyText2:
-                  GoogleFonts.montserrat(fontWeight: FontWeight.w500, color: AppThemeColours.bodyTextColour, fontSize: 12.0.sp)
-                      .copyWith(overflow: TextOverflow.visible))
+              bodyLarge: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: AppThemeColours.bodyTextColour, fontSize: 13.0.sp)
+                  .copyWith(overflow: TextOverflow.visible),
+              bodyMedium: GoogleFonts.montserrat(fontWeight: FontWeight.w500, color: AppThemeColours.bodyTextColour, fontSize: 12.0.sp)
+                  .copyWith(overflow: TextOverflow.visible))
           .apply(fontSizeFactor: 1.sp),
 
       //! SNACK BAR
@@ -106,7 +98,8 @@ class CompanionAppTheme {
               padding: EdgeInsets.symmetric(vertical: 20.0.h, horizontal: 100.0.w),
               backgroundColor: AppThemeColours.elevatedButtonBGColour,
               textStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: Colors.white, fontSize: 14.0.sp),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0.r)))));
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0.r)))),
+      colorScheme: ColorScheme.fromSwatch().copyWith(brightness: Brightness.light, secondary: AppThemeColours.accentColour).copyWith(background: AppThemeColours.backgroundColour));
 
   //!
   //!
@@ -126,13 +119,8 @@ class CompanionAppTheme {
 
       //! OTHER COLOURS
       shadowColor: AppThemeColours.shadowColour,
-      backgroundColor: AppThemeColours.backgroundColourDark,
       scaffoldBackgroundColor: AppThemeColours.scaffoldBackgroundColourDark,
       splashColor: AppThemeColours.splashColour,
-
-      //! COLOUR SCHEME
-      colorScheme: ColorScheme.fromSwatch().copyWith(
-          brightness: Brightness.dark, secondary: AppThemeColours.accentColour),
 
       //! APP BAR
       appBarTheme: AppBarTheme(
@@ -163,27 +151,25 @@ class CompanionAppTheme {
       //! TEXT THEMES
       textTheme: TextTheme(
               //! HEADER TEXTS
-              headline1: GoogleFonts.montserrat(
+              displayLarge: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
                   fontSize: 21.0.sp,
                   color: AppThemeColours.headerColourDark),
-              headline2: GoogleFonts.montserrat(
+              displayMedium: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
                   fontSize: 18.0.sp,
                   color: AppThemeColours.headerColourDark),
               //! SUBHEADER TEXTS - TYPE 2
-              headline3: GoogleFonts.montserrat(
+              displaySmall: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0.sp,
                   color: AppThemeColours.headerColourDark),
 
               //! BODY TEXT
-              bodyText1:
-                  GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: AppThemeColours.bodyTextColourDark, fontSize: 13.0.sp)
-                      .copyWith(overflow: TextOverflow.visible),
-              bodyText2:
-                  GoogleFonts.montserrat(fontWeight: FontWeight.w500, color: AppThemeColours.bodyTextColourDark, fontSize: 12.0.sp)
-                      .copyWith(overflow: TextOverflow.visible))
+              bodyLarge: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: AppThemeColours.bodyTextColourDark, fontSize: 13.0.sp)
+                  .copyWith(overflow: TextOverflow.visible),
+              bodyMedium: GoogleFonts.montserrat(fontWeight: FontWeight.w500, color: AppThemeColours.bodyTextColourDark, fontSize: 12.0.sp)
+                  .copyWith(overflow: TextOverflow.visible))
           .apply(fontSizeFactor: 1.sp),
 
       //! SNACK BAR
@@ -207,7 +193,8 @@ class CompanionAppTheme {
               padding: EdgeInsets.symmetric(vertical: 20.0.h, horizontal: 100.0.w),
               backgroundColor: AppThemeColours.elevatedButtonBGColour,
               textStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: Colors.white, fontSize: 14.0.sp),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0.r)))));
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0.r)))),
+      colorScheme: ColorScheme.fromSwatch().copyWith(brightness: Brightness.dark, secondary: AppThemeColours.accentColour).copyWith(background: AppThemeColours.backgroundColourDark));
 }
 
 //! HOLDS ANY EXTRA APP COLOURS.
@@ -270,4 +257,6 @@ class AppThemeColours {
   //! OTHER COLOURS
   static const Color lightGrey = Color(0xFF878787);
   static const Color red = Color(0xffFF3D00);
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color lightBlue = Color(0xFF556FCB);
 }

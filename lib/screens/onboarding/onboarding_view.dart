@@ -1,28 +1,24 @@
+// ignore_for_file: use_build_context_synchronously
 import 'package:bucc_app/router/router.dart';
 import 'package:bucc_app/router/routes.dart';
 import 'package:bucc_app/theme/app_theme.dart';
+import 'package:bucc_app/utils/app_functional_utils.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:bucc_app/utils/constants/app_constants.dart';
 import 'package:bucc_app/utils/constants/colors.dart';
 import 'package:bucc_app/screens/widgets/button_component.dart';
 import 'package:bucc_app/screens/onboarding/widget/onboarding_component.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class OnboardingView extends StatefulWidget {
-  const OnboardingView({Key? key}) : super(key: key);
-
-  @override
-  _OnboardingViewState createState() => _OnboardingViewState();
-}
-
-class _OnboardingViewState extends State<OnboardingView> {
+class OnboardingView extends ConsumerWidget {
+  OnboardingView({Key? key}) : super(key: key);
   final PageController _controller = PageController();
-  int page = 0;
+  final ValueNotifier<int> page = ValueNotifier(0);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context, WidgetRef ref) => Scaffold(
       body: SafeArea(
           child: Padding(
               padding: AppScreenUtils.appMainPadding,
@@ -32,11 +28,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                     alignment: Alignment.topRight,
                     child: TextButton(
                         onPressed: () async {
-                          //! SAVE PREF
-                          final SharedPreferences pref =
-                              await SharedPreferences.getInstance();
-
-                          pref.setBool("showHome", true);
+                          await AppFunctionalUtils.saveShowHomePref();
 
                           AppNavigator.navigateToPage(
                               thePageRouteName: AppRoutes.onboardingLoginScreen,
@@ -77,15 +69,13 @@ class _OnboardingViewState extends State<OnboardingView> {
                     effect: const ExpandingDotsEffect(
                         dotHeight: 5, activeDotColor: purple),
                     onDotClicked: (int index) {
-                      setState(() {
-                        //! PAGE
-                        page = index;
+                      //! PAGE
+                      page.value = index;
 
-                        //! SCROLL TO PAGE
-                        _controller.animateToPage(index,
-                            duration: const Duration(milliseconds: 200),
-                            curve: Curves.easeInOut);
-                      });
+                      //! SCROLL TO PAGE
+                      _controller.animateToPage(index,
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.easeInOut);
                     }),
 
                 //! SPACER
@@ -95,28 +85,22 @@ class _OnboardingViewState extends State<OnboardingView> {
                 ButtonComponent(
                     onPressed: () async {
                       if (_controller.page!.toInt() != 2) {
-                        setState(() {
-                          _controller.nextPage(
+                        _controller.nextPage(
                             duration: const Duration(milliseconds: 200),
-                            curve: Curves.easeInOut,
-                          );
-                          page++;
-                        });
-                      } else {
-                        //! SAVE PREF
-                        final SharedPreferences pref =
-                            await SharedPreferences.getInstance();
+                            curve: Curves.easeInOut);
 
-                        pref.setBool("showHome", true);
+                        page.value++;
+                      } else {
+                        await AppFunctionalUtils.saveShowHomePref();
 
                         AppNavigator.navigateToReplacementPage(
                             thePageRouteName: AppRoutes.onboardingLoginScreen,
                             context: context);
                       }
                     },
-                    text: page != 2 ? "NEXT" : "GET STARTED"),
+                    text: page.value != 2 ? "NEXT" : "GET STARTED"),
 
                 //! SPACER
-                AppScreenUtils.verticalSpaceSmall
+                AppScreenUtils.verticalSpaceMedium
               ]))));
 }

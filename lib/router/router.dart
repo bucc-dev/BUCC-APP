@@ -37,7 +37,7 @@ class AppNavigator {
         return _getPageRoute(
             routeName: routeSettings.name,
             args: routeSettings.arguments,
-            view: const OnboardingView());
+            view: OnboardingView());
 
       //! ONBOARDING LOGIN
       case AppRoutes.onboardingLoginScreen:
