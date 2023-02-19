@@ -37,20 +37,22 @@ class NotificationItem extends StatelessWidget {
       title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         //! MAIN TITLE
         commentedOnYourPost
-            ? Row(
-                children: [
-                  //! NAME
-                  Text("Blessed Madukoma",
-                      style: Theme.of(context).textTheme.bodyLarge),
+            ? Row(children: [
+                //! NAME
+                Text("Blessed Madukoma",
+                    style: Theme.of(context).textTheme.bodyLarge),
 
-                  //! SPACER
-                  SizedBox(width: 5.0.w),
+                //! SPACER
+                SizedBox(width: 5.0.w),
 
-                  //! ACTION
-                  Text(" commented on your post",
-                      style: Theme.of(context).textTheme.bodyMedium)
-                ],
-              )
+                //! ACTION
+                Expanded(
+                    child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Text(" commented on your post",
+                            style: Theme.of(context).textTheme.bodyMedium)))
+              ])
             : Row(children: [
                 //! NAME
                 Text("Fidelis Antigha ",
@@ -60,8 +62,12 @@ class NotificationItem extends StatelessWidget {
                 SizedBox(width: 5.0.w),
 
                 //! ACTION
-                Text(" replied your comment",
-                    style: Theme.of(context).textTheme.bodyMedium)
+                Expanded(
+                    child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Text(" replied your comment",
+                            style: Theme.of(context).textTheme.bodyMedium)))
               ]),
 
         //! SPACER

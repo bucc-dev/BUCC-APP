@@ -4,31 +4,28 @@ import 'package:bucc_app/screens/notifications/widget/executive_notification.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NotificationsScreen extends ConsumerStatefulWidget {
+class NotificationsScreen extends ConsumerWidget {
   const NotificationsScreen({super.key});
-  static final PageController notificationPageController = PageController();
+
+  //! CURRENT PAGE IN VIEW
+  static final ValueNotifier<int> currentPage = ValueNotifier(0);
+
+  //! SCREENS
+  static const List<Widget> _screens = [
+    //! FIRST SCREEN
+    AllNotifications(),
+
+    //! EXECUTIVE NOTIFICATIONS
+    ExecutiveNotifications(),
+
+    //! CLASS NOTIFICATIONS
+    ClassNotifications()
+  ];
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _NotificationsScreenState();
-}
-
-class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
-  @override
-  Widget build(BuildContext context) => SafeArea(
-          child: PageView(
-              controller: NotificationsScreen.notificationPageController,
-              pageSnapping: false,
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              children: const [
-            //! FIRST SCREEN
-            AllNotifications(),
-
-            //! EXECUTIVE NOTIFICATIONS
-            ExecutiveNotifications(),
-
-            //! CLASS NOTIFICATIONS
-            ClassNotifications()
-          ]));
+  Widget build(BuildContext context, WidgetRef ref) => SafeArea(
+      child: ValueListenableBuilder(
+          valueListenable: currentPage,
+          builder: (context, value, child) =>
+              _screens.elementAt(currentPage.value)));
 }

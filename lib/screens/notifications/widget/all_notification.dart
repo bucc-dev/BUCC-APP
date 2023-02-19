@@ -3,17 +3,21 @@ import 'package:bucc_app/utils/app_fade_animation.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:bucc_app/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AllNotifications extends StatelessWidget {
+class AllNotifications extends ConsumerWidget {
   const AllNotifications({super.key});
   static final List<String> _listOfSuggestedUsers = ["Test"];
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
+  Widget build(BuildContext context, WidgetRef ref) => SingleChildScrollView(
       padding: AppScreenUtils.appMainPadding,
-      physics: const NeverScrollableScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       child: Column(children: [
+        //! SPACER
+        AppScreenUtils.verticalSpaceSmall,
+
         //! TOPIC
         Align(
             alignment: Alignment.centerLeft,
@@ -21,7 +25,7 @@ class AllNotifications extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium!
-                    .copyWith(fontSize: 11.0.sp, fontWeight: FontWeight.w700))),
+                    .copyWith(fontSize: 12.0.sp, fontWeight: FontWeight.w700))),
 
         //! SPACER
         AppScreenUtils.verticalSpaceSmall,
@@ -53,7 +57,7 @@ class AllNotifications extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text("Earlier today",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: 14.0.sp, fontWeight: FontWeight.w700))),
+                        fontSize: 12.0.sp, fontWeight: FontWeight.w700))),
 
         //! SPACER
         AppScreenUtils.verticalSpaceSmall,

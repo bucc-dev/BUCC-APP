@@ -16,168 +16,227 @@ class HomeWrapperAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size.fromHeight(screenIndex == 3 ? 55 : 65);
 
+  //! USED TO CONTAIN THE CURRENT VALUE OF THE NOTIFICATION PAGE BEING DISPLAYED
+  static final ValueNotifier<int> currentNotificationValue = ValueNotifier(0);
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) => AppBar(
-      elevation: 0.5.h,
-      automaticallyImplyLeading: false,
-      centerTitle: true,
-      shadowColor: Theme.of(context).brightness == Brightness.light
-          ? AppThemeColours.thirdGrey
-          : Colors.white.withOpacity(0.1),
-      title: screenIndex == 1
-          ?
+  Widget build(BuildContext context, WidgetRef ref) {
+    final TextStyle textStyle = Theme.of(context)
+        .textTheme
+        .bodyMedium!
+        .copyWith(fontSize: 12.0.sp, fontWeight: FontWeight.w600);
 
-          //! NOTIFICATIONS
-          Row(children: [
-              //! PROFILE IMAGE
-              CircleAvatar(
-                  radius: 18.r,
-                  backgroundColor: white,
-                  backgroundImage: const AssetImage(defaultUserImage2)),
+    return AppBar(
+        elevation: 0.5.h,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        shadowColor: Theme.of(context).brightness == Brightness.light
+            ? AppThemeColours.thirdGrey
+            : Colors.white.withOpacity(0.1),
+        title: screenIndex == 1
+            ?
 
-              //! SPACER
-              AppScreenUtils.horizontalSpaceMedium,
+            //! NOTIFICATIONS
+            Row(children: [
+                //! PROFILE IMAGE
+                Container(
+                    margin: EdgeInsets.only(top: 7.0.h),
+                    height: 40.0.h,
+                    width: 40.0.w,
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: white,
+                        image: DecorationImage(
+                            image: AssetImage(defaultUserImage2)))),
 
-              //! TITLE
-              PopupMenuButton(
-                  onSelected: (value) {
-                    //! ALL NOTIFICATIONS
-                    if (value == 1) {
-                      //! SCROLL TO LOCATION
-                      NotificationsScreen.notificationPageController
-                          .animateToPage(0,
-                              duration: const Duration(seconds: 1),
-                              curve: Curves.easeIn);
-                    }
+                //! SPACER
+                AppScreenUtils.horizontalSpaceSmall,
 
-                    //! EXECUTIVE NOTIFICATION
-                    else if (value == 2) {
-                      //! SCROLL TO LOCATION
-                      NotificationsScreen.notificationPageController
-                          .animateToPage(1,
-                              duration: const Duration(seconds: 1),
-                              curve: Curves.easeIn);
-                    }
+                //! TITLE
+                Expanded(
+                    child: Container(
+                        height: 48.0.h,
+                        margin: EdgeInsets.only(top: 10.0.h),
+                        padding: EdgeInsets.symmetric(vertical: 2.0.h),
+                        alignment: Alignment.center,
+                        child: ValueListenableBuilder(
+                          valueListenable: currentNotificationValue,
+                          builder: (context, value, child) => PopupMenuButton(
+                              onSelected: (value) {
+                                //! SET PAGE VALUE
+                                currentNotificationValue.value = value as int;
 
-                    //! CLASS NOTIFICATION
-                    else if (value == 3) {
-                      //! SCROLL TO LOCATION
-                      NotificationsScreen.notificationPageController
-                          .animateToPage(2,
-                              duration: const Duration(seconds: 1),
-                              curve: Curves.easeIn);
-                    }
-                  },
-                  onCanceled: () {},
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          width: 1.5, color: lightGrey.withOpacity(0.1)),
-                      borderRadius: BorderRadius.circular(8.0)),
-                  offset: Offset(85.w, 60.h),
-                  elevation: 4.0,
-                  constraints:
-                      BoxConstraints(minHeight: 150.h, minWidth: 320.w),
-                  padding: AppScreenUtils.appMainPadding,
-                  itemBuilder: (context) => [
-                        //! ALL NOTIFICATIONS
-                        PopupMenuItem(
-                            value: 1,
-                            height: 45,
-                            child: SizedBox(
-                                width: double.infinity,
-                                child: Text("All Notifications",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                            fontWeight: FontWeight.w600)))),
+                                //! ALL NOTIFICATIONS
+                                if (value == 1) {
+                                  //! SHOW ALL NOTIFICATIONS
+                                  NotificationsScreen.currentPage.value = 0;
+                                }
 
-                        //! EXECUTIVE NOTIFICATIONS
-                        PopupMenuItem(
-                            value: 2,
-                            height: 45,
-                            child: SizedBox(
-                                width: double.infinity,
-                                child: Text("Executive Notifications",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                            fontWeight: FontWeight.w600)))),
+                                //! EXECUTIVE NOTIFICATION
+                                else if (value == 2) {
+                                  //! SHOW EXECUTIVE NOTIFICATIONS SCREEN
+                                  NotificationsScreen.currentPage.value = 1;
+                                }
 
-                        //! CLASS NOTIFICATIONS
-                        PopupMenuItem(
-                            value: 3,
-                            height: 45,
-                            child: SizedBox(
-                                width: double.infinity,
-                                child: Text("Class Notifications",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                            fontWeight: FontWeight.w600))))
-                      ],
+                                //! CLASS NOTIFICATION
+                                else if (value == 3) {
+                                  //! SHOW CLASS NOTIFICATION SCREEN
+                                  NotificationsScreen.currentPage.value = 2;
+                                }
+                              },
+                              onCanceled: () {},
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      width: 1.5,
+                                      color: lightGrey.withOpacity(0.1)),
+                                  borderRadius: BorderRadius.circular(8.0.r)),
+                              offset: Offset(0.0.w, 50.h),
+                              elevation: 12.0.h,
+                              shadowColor:
+                                  AppThemeColours.lightBlue.withOpacity(0.2),
+                              constraints: BoxConstraints(
+                                  minHeight: 150.h, minWidth: 320.w),
+                              padding: AppScreenUtils.appMainPadding,
+                              itemBuilder: (context) => [
+                                    //! ALL NOTIFICATIONS
+                                    PopupMenuItem(
+                                        value: 1,
+                                        height: 55,
+                                        child: NotificationPopUpMenuItem(
+                                            title: "All Notifications",
+                                            itemBgColour:
+                                                currentNotificationValue
+                                                            .value ==
+                                                        1
+                                                    ? const Color(0XFFE5EBFF)
+                                                    : null,
+                                            itemColour: currentNotificationValue
+                                                        .value ==
+                                                    1
+                                                ? AppThemeColours.lightBlue
+                                                : null)),
 
-                  //! CONTENT
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Class Notifications",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14.0.sp)),
+                                    //! EXECUTIVE NOTIFICATIONS
+                                    PopupMenuItem(
+                                        value: 2,
+                                        height: 55,
+                                        child: NotificationPopUpMenuItem(
+                                            title: "Executive Notifications",
+                                            itemBgColour:
+                                                currentNotificationValue
+                                                            .value ==
+                                                        2
+                                                    ? const Color(0XFFE5EBFF)
+                                                    : null,
+                                            itemColour: currentNotificationValue
+                                                        .value ==
+                                                    2
+                                                ? AppThemeColours.lightBlue
+                                                : null)),
 
-                        //!spacer
+                                    //! CLASS NOTIFICATIONS
+                                    PopupMenuItem(
+                                        value: 3,
+                                        height: 55,
+                                        child: NotificationPopUpMenuItem(
+                                            title: "Class Notifications",
+                                            itemBgColour:
+                                                currentNotificationValue
+                                                            .value ==
+                                                        3
+                                                    ? const Color(0XFFE5EBFF)
+                                                    : null,
+                                            itemColour: currentNotificationValue
+                                                        .value ==
+                                                    3
+                                                ? AppThemeColours.lightBlue
+                                                : null))
+                                  ],
+
+                              //! CONTENT
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Class Notifications",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!
+                                            .copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 14.0.sp)),
+
+                                    //! SPACER
+                                    SizedBox(width: 5.0.w),
+
+                                    //! ICON
+                                    const Icon(
+                                        Icons.keyboard_arrow_down_outlined,
+                                        color: AppThemeColours.darkGrey,
+                                        size: 21.0)
+                                  ])),
+                        )))
+              ])
+            :
+
+            //! SETTINGS SCREEN
+            screenIndex == 3
+                ? Text("Profile",
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 16.0.sp, fontWeight: FontWeight.w600))
+                :
+
+                //! HOME SCREEN
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                        //! PROFILE IMAGE
+                        Container(
+                            margin: EdgeInsets.only(top: 7.0.h),
+                            height: 40.0.h,
+                            width: 40.0.w,
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: white,
+                                image: DecorationImage(
+                                    image: AssetImage(defaultUserImage2)))),
+
+                        //! SPACER
                         AppScreenUtils.horizontalSpaceSmall,
 
-                        //! ICON
-                        const Icon(Icons.arrow_drop_down_sharp, size: 12.0)
-                      ]))
-            ])
-          :
+                        //! SEARCH FIELD
+                        Expanded(
+                            child: Container(
+                                height: 48.0.h,
+                                margin: EdgeInsets.only(top: 10.0.h),
+                                padding: EdgeInsets.symmetric(vertical: 2.0.h),
+                                child: const CustomTextField(
+                                    isHomeScreen: true,
+                                    maxLines: 1,
+                                    prefixIcon: Icon(Icons.search),
+                                    hintText: "Search Companion")))
+                      ]));
+  }
+}
 
-          //! SETTINGS SCREEN
-          screenIndex == 3
-              ? Text("Profile",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(fontSize: 16.0.sp, fontWeight: FontWeight.w600))
-              :
+class NotificationPopUpMenuItem extends ConsumerWidget {
+  final String title;
+  final Color? itemBgColour;
+  final Color? itemColour;
+  const NotificationPopUpMenuItem(
+      {required this.title, this.itemColour, this.itemBgColour, super.key});
 
-              //! HOME SCREEN
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                      //! PROFILE IMAGE
-                      Container(
-                          margin: EdgeInsets.only(top: 7.0.h),
-                          height: 40.0.h,
-                          width: 40.0.w,
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: white,
-                              image: DecorationImage(
-                                  image: AssetImage(defaultUserImage2)))),
-
-                      //! SPACER
-                      AppScreenUtils.horizontalSpaceSmall,
-
-                      //! SEARCH FIELD
-                      Expanded(
-                          child: Container(
-                              height: 48.0.h,
-                              margin: EdgeInsets.only(top: 10.0.h),
-                              padding: EdgeInsets.symmetric(vertical: 2.0.h),
-                              child: const CustomTextField(
-                                  isHomeScreen: true,
-                                  maxLines: 1,
-                                  prefixIcon: Icon(Icons.search),
-                                  hintText: "Search Companion")))
-                    ]));
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(vertical: 16.0.h, horizontal: 21.0.w),
+        decoration: BoxDecoration(
+            color: itemBgColour, borderRadius: BorderRadius.circular(8.0.r)),
+        child: Text(title,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontSize: 12.0.sp,
+                color: itemColour,
+                fontWeight: FontWeight.w600)));
+  }
 }
