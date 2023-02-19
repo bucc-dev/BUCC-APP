@@ -9,6 +9,7 @@ import 'package:bucc_app/theme/theme_preferences.dart';
 import 'package:bucc_app/utils/app_functional_utils.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:bucc_app/utils/constants/app_constants.dart';
+import 'package:bucc_app/utils/extentions/app_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,8 +52,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
   ];
 
   //! VARIABLES
-  static XFile? _selectedUserImage;
-  static bool _imageHasValue = false;
+  final ValueNotifier<File?> _selectedUserImage = ValueNotifier(File(""));
+  final ValueNotifier<bool> _imageHasValue = ValueNotifier(false);
 
   //! THEME
   late TabController _tabController;
@@ -71,58 +72,40 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
   }
 
   @override
-  void didChangeDependencies() {
-    String themeMode =
-        ref.watch(themeModeProvider.notifier).theCurrentThemeMode;
-
-    //! IF THE MODE IN LOWER CASE CONTAINS THE LAST PART OF THE THEME MODE ENUM
-    //! AFTER BEING SPLIT BY THE "." SEPARATOR, ANIMATE THE TAB TO THAT OPTION
-    //! THIS SHOWS THE USERS LAST SELECTED MODE.
-    for (var mode in _themeOptions) {
-      if (mode.toLowerCase().contains(themeMode.split(".").last)) {
-        _tabController.animateTo(_themeOptions.indexOf(mode));
-      }
-    }
-
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
     return SingleChildScrollView(
         padding: AppScreenUtils.appMainPadding,
         physics: const BouncingScrollPhysics(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          //! SPACER
-          AppScreenUtils.verticalSpaceSmall,
-
           //! IMAGE
           Align(
               alignment: Alignment.center,
-              child: Container(
-                  height: 100.0.h,
-                  width: 100.0.w,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                          width: 2.0.sp, color: Colors.grey.shade600),
-                      color: Colors.grey.shade200,
-                      image: _imageHasValue
-                          ? null
-                          : const DecorationImage(
-                              image: AssetImage(defaultUserImage3),
-                              fit: BoxFit.contain)),
-                  child: _imageHasValue
-                      ? Image.file(File(_selectedUserImage!.path),
-                          fit: BoxFit.contain)
-                      : null)),
+              child: ValueListenableBuilder(
+                  valueListenable: _selectedUserImage,
+                  builder: (context, value, child) => Container(
+                      height: 100.0.h,
+                      width: 100.0.w,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              width: 2.0.sp, color: Colors.grey.shade600),
+                          color: Colors.grey.shade200,
+                          image: _imageHasValue.value
+                              ? DecorationImage(
+                                  image: FileImage(
+                                      File(_selectedUserImage.value!.path)),
+                                  fit: BoxFit.cover)
+                              : const DecorationImage(
+                                  image: AssetImage(defaultUserImage3),
+                                  fit: BoxFit.contain))))),
 
           //! SPACER
           AppScreenUtils.verticalSpaceSmall,
 
           //! USER NAME
           Text("Oluchi Egboh",
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              style: textTheme.bodyLarge!.copyWith(
                   color: const Color(0xFF313636),
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0.sp)),
@@ -134,7 +117,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             //! COURSE
             Text("Software Engineering",
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                style: textTheme.bodyMedium!.copyWith(
                     color: const Color(0xFF313636),
                     fontWeight: FontWeight.w500,
                     fontSize: 14.0.sp)),
@@ -151,7 +134,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
 
             //! LEVEL
             Text("400L",
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                style: textTheme.bodyMedium!.copyWith(
                     color: const Color(0xFF313636),
                     fontWeight: FontWeight.w500,
                     fontSize: 14.0.sp))
@@ -161,7 +144,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           AppScreenUtils.verticalSpaceSmall,
 
           //! NOTICE
-          const Align(alignment: Alignment.centerLeft, child: Text("Settings")),
+          Align(
+              alignment: Alignment.centerLeft,
+              child: Text("Settings",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: AppThemeColours.lightGrey))),
 
           //! SPACER
           AppScreenUtils.verticalSpaceSmall,
@@ -171,11 +160,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               (index) => MainSettingsItemWidget(
                   index: index,
                   onTap: () => index == 0
-                      ? AppFunctionalUtils.pickImage(userChoice: "").then(
-                          (value) => setState(() => {
-                                _selectedUserImage = value,
-                                _imageHasValue = true
-                              }))
+                      ?
+                      //! PICK IMAGE
+                      AppFunctionalUtils.pickImage(userChoice: "")
+                          .then((value) {
+                          value == null
+                              ? {}
+                              : {
+                                  _selectedUserImage.value = value,
+                                  _imageHasValue.value = true
+                                };
+                        })
                       : index == 1
                           ? AppNavigator.navigateToPage(
                               thePageRouteName: AppRoutes.changePassword,
@@ -191,11 +186,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   title: _mainSettingsList.elementAt(index))),
 
           //! SPACER
-          AppScreenUtils.verticalSpaceSmall,
+          AppScreenUtils.verticalSpaceMedium,
 
           //! NOTICE
-          const Align(
-              alignment: Alignment.centerLeft, child: Text("Social media")),
+          Align(
+              alignment: Alignment.centerLeft,
+              child: Text("Social media",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: AppThemeColours.lightGrey))),
 
           //! SPACER
           AppScreenUtils.verticalSpaceSmall,
@@ -207,6 +207,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   title: _socialMediaHandles.elementAt(index))),
 
           //! SPACER
+          AppScreenUtils.verticalSpaceMedium,
+
+          //! NOTICE
+          Align(
+              alignment: Alignment.centerLeft,
+              child: Text("App Theme",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: AppThemeColours.lightGrey))),
+
+          //! SPACER
           AppScreenUtils.verticalSpaceSmall,
 
           //!  CHANGE THEME
@@ -214,10 +226,25 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               height: 56.0.h,
               width: double.infinity.w,
               child: //! TAB NOTIFIER
-                  TabBar(
+                  Consumer(
+                builder: (context, ref, child) {
+                  String themeMode =
+                      ref.watch(themeModeProvider.notifier).theCurrentThemeMode;
+
+                  //! IF THE MODE IN LOWER CASE CONTAINS THE LAST PART OF THE THEME MODE ENUM
+                  //! AFTER BEING SPLIT BY THE "." SEPARATOR, ANIMATE THE TAB TO THAT OPTION
+                  //! THIS SHOWS THE USERS LAST SELECTED MODE.
+                  for (var mode in _themeOptions) {
+                    if (mode
+                        .toLowerCase()
+                        .contains(themeMode.split(".").last)) {
+                      _tabController.animateTo(_themeOptions.indexOf(mode));
+                    }
+                  }
+                  return TabBar(
                       controller: _tabController,
                       indicatorColor: AppThemeColours.primaryColour,
-                      indicatorWeight: 3.0.h,
+                      indicatorWeight: 2.0.h,
                       indicatorSize: TabBarIndicatorSize.tab,
                       physics: const BouncingScrollPhysics(),
                       onTap: (value) => ref
@@ -227,15 +254,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                                   .elementAt(value)
                                   .toString()),
                       tabs: _themeOptions
-                          .map((themeOption) => Text(themeOption,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(fontSize: 12.0.sp)))
-                          .toList())),
+                          .map((themeOption) => Center(
+                              child: Text(themeOption,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(fontSize: 12.0.sp))))
+                          .toList());
+                },
+              )),
 
           //! SPACER
-          AppScreenUtils.verticalSpaceSmall,
+          AppScreenUtils.verticalSpaceMedium,
 
           ButtonComponent(
               onPressed: () =>
@@ -244,7 +274,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               text: "Logout"),
 
           //! SPACER
-          AppScreenUtils.verticalSpaceSmall
+          AppScreenUtils.verticalSpaceMedium
         ]));
   }
 }

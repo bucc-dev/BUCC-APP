@@ -20,16 +20,19 @@ class SocialMediaSettingsItemWidget extends StatelessWidget {
         Icon(theIcon, size: 16.0.sp, color: Colors.black54),
 
         //! SPACER
-        AppScreenUtils.horizontalSpaceSmall,
+        AppScreenUtils.horizontalSpaceMedium,
 
         Text(title,
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                fontWeight: FontWeight.w600, color: const Color(0xFF4F4F4F))),
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontWeight: FontWeight.w500,
+                fontSize: 14.0.sp,
+                color: const Color(0xFF4F4F4F))),
 
         //! SPACER
         const Spacer(),
 
         //! SPACER
-        Icon(Icons.arrow_forward_ios, size: 16.0.sp, color: Colors.black54)
+        Icon(Icons.arrow_forward_ios,
+            size: 16.0.sp, color: const Color(0xFF4F4F4F))
       ]));
 }

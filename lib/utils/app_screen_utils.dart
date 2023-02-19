@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppScreenUtils {
   //! MAIN PADDING
   static EdgeInsets appMainPadding =
-      EdgeInsets.only(top: 6.0.h, left: 12.0.w, right: 12.0.w);
+      EdgeInsets.only(top: 6.0.h, left: 21.0.w, right: 21.0.w);
 
   //! SPACERS
   //! HORIZONTAL SPACES

@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:bucc_app/theme/app_theme.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:bucc_app/utils/constants/colors.dart';
+import 'package:bucc_app/utils/extentions/app_extensions.dart';
 import 'package:bucc_app/utils/type_defs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -64,17 +67,22 @@ class AppFunctionalUtils {
               child: child));
 
   //! IMAGE PICKER
-  static Future<XFile?> pickImage({required String userChoice}) async {
-    //! INITIALIZE PICKER
-    final ImagePicker picker = ImagePicker();
+  // ignore: body_might_complete_normally_nullable
+  static Future<File?> pickImage({required String userChoice}) async {
+    try {
+      //! INITIALIZE PICKER THEN; PICK IMAGE OR TAKE PHOTO
+      final XFile? imageOrPhoto = await ImagePicker().pickImage(
+          source: userChoice.toLowerCase() == "take image"
+              ? ImageSource.camera
+              : ImageSource.gallery);
 
-    //! PICK IMAGE OR TAKE PHOTO
-    final XFile? imageOrPhoto = await picker.pickImage(
-        source: userChoice.toLowerCase() == "take image"
-            ? ImageSource.camera
-            : ImageSource.gallery);
+      File? imageTemp =
+          imageOrPhoto?.path != null ? File(imageOrPhoto!.path) : null;
 
-    return imageOrPhoto;
+      return imageTemp;
+    } on PlatformException catch (e) {
+      "Failed to pick images: $e".log();
+    }
   }
 
 //!

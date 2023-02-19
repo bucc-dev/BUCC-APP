@@ -7,11 +7,13 @@ class CustomTextField extends StatefulWidget {
   final int? maxLines;
   final TextEditingController? controller;
   final void Function()? onChanged;
+  final String? Function()? validator;
   final TextInputType? textInputType;
   final bool? obscureText;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final bool? isHomeScreen;
+  final EdgeInsetsGeometry? contentPadding;
   const CustomTextField(
       {Key? key,
       required this.hintText,
@@ -22,7 +24,9 @@ class CustomTextField extends StatefulWidget {
       this.obscureText,
       this.suffixIcon,
       this.isHomeScreen,
-      this.prefixIcon})
+      this.prefixIcon,
+      this.validator,
+      this.contentPadding})
       : super(key: key);
 
   final String hintText;
@@ -45,12 +49,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
       //! ON SAVED
       onSaved: (newValue) => FocusScope.of(context).unfocus(),
+      onChanged: widget.onChanged != null
+          ? (value) => widget.onChanged!()
+          : (value) {},
+      validator: widget.validator != null
+          ? (value) => widget.validator!()
+          : (value) => null,
 
       //! DECORATION
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(
-              horizontal: 25.0.w,
-              vertical: widget.isHomeScreen == true ? 1.0.h : 18.0.h),
+          contentPadding: widget.contentPadding ??
+              EdgeInsets.symmetric(
+                  horizontal: 25.0.w,
+                  vertical: widget.isHomeScreen == true ? 1.0.h : 10.0.h),
 
           //! HINT & HINT STYLE
           hintText: widget.hintText,
@@ -58,6 +69,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
               fontWeight: FontWeight.w500,
               color: AppThemeColours.thirdGrey,
               fontSize: 12.0.sp),
+
+          //! ERROR STYLE
+          errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              fontWeight: FontWeight.w500,
+              color: AppThemeColours.red,
+              fontSize: 10.0.sp),
 
           //! PREFIX ICON
           prefixIcon: widget.prefixIcon,
@@ -75,12 +92,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
                           ? AppThemeColours.lightGrey
                           : Colors.grey.shade200
                       : Colors.white.withOpacity(0.1)),
-              borderRadius: BorderRadius.all(Radius.circular(18.0.r))),
+              borderRadius: BorderRadius.all(Radius.circular(10.0.r))),
 
           //! FOCUSED BORDER
           focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppThemeColours.lightBlue),
-              borderRadius: BorderRadius.all(Radius.circular(18.0.r))),
+              borderRadius: BorderRadius.all(Radius.circular(10.0.r))),
 
           //! ENABLED BORDER
           enabledBorder: OutlineInputBorder(
@@ -90,5 +107,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
                           ? AppThemeColours.lightGrey
                           : Colors.grey.shade200
                       : Colors.white.withOpacity(0.8)),
-              borderRadius: BorderRadius.all(Radius.circular(18.0.r)))));
+              borderRadius: BorderRadius.all(Radius.circular(10.0.r))),
+
+          //! ERROR BORDER
+          errorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppThemeColours.red),
+              borderRadius: BorderRadius.all(Radius.circular(10.0.r)))));
 }

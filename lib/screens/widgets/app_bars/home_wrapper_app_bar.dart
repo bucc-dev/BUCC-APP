@@ -18,7 +18,7 @@ class HomeWrapperAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => AppBar(
-      elevation: 0.5,
+      elevation: 0.5.h,
       automaticallyImplyLeading: false,
       centerTitle: true,
       shadowColor: Theme.of(context).brightness == Brightness.light

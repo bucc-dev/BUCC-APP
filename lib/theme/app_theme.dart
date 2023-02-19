@@ -31,6 +31,7 @@ class CompanionAppTheme {
       appBarTheme: AppBarTheme(
           backgroundColor: AppThemeColours.appBackgroundColour,
           shadowColor: AppThemeColours.shadowColour,
+          elevation: 1.0.sp,
           titleTextStyle: GoogleFonts.montserrat(
               color: Colors.black,
               fontWeight: FontWeight.w600,
@@ -213,7 +214,7 @@ class AppThemeColours {
   static const Color scaffoldBackgroundColourDark = Color(0xFF313636);
 
   //! SHADOW COLOUR
-  static Color shadowColour = const Color(0xFF556FCB).withOpacity(0.1);
+  static Color shadowColour = const Color(0xFF878787);
 
   //! PRIMARY
   static const Color primaryColour = Color(0xFF556FCB);
@@ -258,7 +259,7 @@ class AppThemeColours {
   static const Color lightGrey = Color(0xFF878787);
   static const Color darkGrey = Color(0xFF333333);
   static const Color thirdGrey = Color(0xFFB0B0B0);
-  static const Color red = Color(0xffFF3D00);
+  static const Color red = Color(0xffFF0000);
   static const Color white = Color(0xFFFFFFFF);
   static const Color lightBlue = Color(0xFF556FCB);
 }
