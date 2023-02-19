@@ -1,3 +1,4 @@
+// ignore_for_file: body_might_complete_normally_catch_error
 import 'package:bucc_app/services/model/auth/user_model.dart';
 import 'package:bucc_app/services/repositories/profile_repository.dart';
 import 'package:bucc_app/utils/app_functional_utils.dart';
@@ -14,13 +15,11 @@ final StateNotifierProvider<ProfileController, bool> profileControllerProvider =
 
 class ProfileController extends StateNotifier<bool> {
   final ProfileRepository _profileRepository;
-  final Ref _ref;
 
   //! CONSTRUCTOR
   ProfileController(
       {required ProfileRepository profileRepository, required Ref ref})
       : _profileRepository = profileRepository,
-        _ref = ref,
         super(false);
 
   //!

@@ -8,6 +8,7 @@ import 'package:bucc_app/utils/failure.dart';
 import 'package:bucc_app/utils/type_defs.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 
 final Provider<PostRepository> postsRepositoryProvider =
@@ -20,14 +21,14 @@ class PostRepository {
   FutureEither<EventModel> getPostDetail({required String postID}) async {
     try {
       //! FETCH USER TOKEN
-      final UserToken? userToken = await TokenCache.getUserTokens();
+      final UserToken userToken = await TokenCache.getUserTokens();
 
       //! MAKE REQUEST, ADD HEADER SUPPORTS, REQUEST BODY AND SEND REQUEST
       http.Request request =
           http.Request("GET", Uri.parse(AppUrls.getPostDetails(postID: postID)))
             ..headers.addAll({
               "Content-Type": "application/json; charset=UTF-8",
-              "Authorization": "Bearer ${userToken?.token}"
+              "Authorization": "Bearer ${userToken.token}"
             });
 
       //! SEND REQUEST
@@ -71,12 +72,12 @@ class PostRepository {
   FutureEither<List<EventModel>> fetchPosts() async {
     try {
       //! FETCH USER TOKEN
-      final UserToken? userToken = await TokenCache.getUserTokens();
+      final UserToken userToken = await TokenCache.getUserTokens();
 
       http.Request request = http.Request("GET", Uri.parse(AppUrls.fetchPosts))
         ..headers.addAll({
           "Content-Type": "application/json; charset=UTF-8",
-          "Authorization": "Bearer ${userToken?.token}"
+          "Authorization": "Bearer ${userToken.token}"
         });
 
       http.StreamedResponse response = await request.send();

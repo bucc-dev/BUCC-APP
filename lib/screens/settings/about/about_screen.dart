@@ -29,7 +29,7 @@ class AboutScreen extends StatelessWidget {
           title: Text("About",
               style: Theme.of(context)
                   .textTheme
-                  .bodyText1!
+                  .bodyLarge!
                   .copyWith(fontSize: 16.0.sp, fontWeight: FontWeight.w600))),
 
       //! BODY

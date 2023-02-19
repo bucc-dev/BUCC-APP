@@ -27,7 +27,7 @@ class SuccessfulResponse extends StatelessWidget {
         Text(theMessage,
             style: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .bodyLarge!
                 .copyWith(fontSize: 18.0.sp, fontWeight: FontWeight.w600))
       ]));
 }

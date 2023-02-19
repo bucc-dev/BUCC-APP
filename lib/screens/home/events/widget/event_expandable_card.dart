@@ -40,6 +40,7 @@ class EventExpandableCard extends StatelessWidget {
                       children: [
                         //! TITLE, PRIORITY && TIME
                         Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               //! TITLE
@@ -49,45 +50,52 @@ class EventExpandableCard extends StatelessWidget {
                                     Text(title,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline3),
+                                            .bodyMedium!
+                                            .copyWith(
+                                                fontSize: 16.0.sp,
+                                                fontWeight: FontWeight.w500)),
 
                                     //! SPACER
                                     AppScreenUtils.verticalSpaceSmall,
 
                                     //! TIME
-                                    Text("8:00 AM",
+                                    Text("10:00 AM",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyText2)
+                                            .bodyMedium)
                                   ]),
 
                               //! PRIORITY
-                              Container(
-                                  height: 30.0.h,
-                                  width: 120.0.w,
-                                  decoration: BoxDecoration(
-                                      color: index == 2
-                                          ? const Color(
-                                              0xFFFF0000) //! RED HOT CHILLI PEPPERS
-                                          : index.isEven
-                                              ? const Color(
-                                                  0xFF72C8CC) //! MEDIUM PRIORITY
-                                              : const Color(
-                                                  0xFFF3C110), //! HIGH PRIORITY
-                                      borderRadius:
-                                          BorderRadius.circular(8.0.r)),
-                                  alignment: Alignment.center,
-                                  child: Text("Aug 10 2022",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2))
+                              Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 3.0.h, horizontal: 0.0.w),
+                                  child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text("Aug 10 2022",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium),
+
+                                        //! SPACER
+                                        AppScreenUtils.horizontalSpaceSmall,
+
+                                        Icon(Icons.flag,
+                                            color: index == 2
+                                                ? const Color(
+                                                    0xFFFF0000) //! RED HOT CHILLI PEPPERS
+                                                : index.isEven
+                                                    ? const Color(
+                                                        0xFF72C8CC) //! MEDIUM PRIORITY
+                                                    : const Color(0xFFF3C110))
+                                      ]))
                             ]),
 
                         //! SPACER
                         AppScreenUtils.verticalSpaceSmall,
 
                         //! DESCRIPTION
-                        Text(description.substring(0, 120) + "...")
+                        Text("${description.substring(0, 120)}...")
                       ])),
 
               //! TEXT TO SHOW WHEN COLLAPSED

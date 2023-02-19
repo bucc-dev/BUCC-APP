@@ -1,3 +1,4 @@
+// ignore_for_file: unnecessary_nullable_for_final_variable_declarations
 import 'dart:convert';
 import 'package:bucc_app/services/cache/tokens_cache.dart';
 import 'package:bucc_app/services/cache/user_details_cache.dart';
@@ -9,6 +10,7 @@ import 'package:bucc_app/utils/failure.dart';
 import 'package:bucc_app/utils/type_defs.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 
 final Provider<ProfileRepository> profileRepositoryProvider =

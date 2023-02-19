@@ -19,7 +19,7 @@ class ClassNotifications extends StatelessWidget {
 
         //! TEXT
         Text("No Class Notifications",
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 fontSize: 18.0.sp, color: AppThemeColours.primaryColour))
       ]));
 }

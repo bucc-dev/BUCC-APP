@@ -32,9 +32,9 @@ class _AddEventState extends State<AddEvent> {
   @override
   Widget build(BuildContext context) {
     //! HEADER TEXT STYLE
-    TextStyle _titleStyle = Theme.of(context)
+    TextStyle titleStyle = Theme.of(context)
         .textTheme
-        .bodyText1!
+        .bodyLarge!
         .copyWith(fontSize: 14.0.sp, color: const Color(0xff878787));
 
     final start = dateRange.start;
@@ -57,7 +57,7 @@ class _AddEventState extends State<AddEvent> {
 
             //! TITLE
             title: Text("Planner",
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: black,
                     fontSize: 16.0.sp,
                     fontWeight: FontWeight.w600)),
@@ -67,7 +67,7 @@ class _AddEventState extends State<AddEvent> {
               TextButton(
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text("Cancel",
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: AppThemeColours.red,
                           fontWeight: FontWeight.w500)))
             ]),
@@ -81,7 +81,7 @@ class _AddEventState extends State<AddEvent> {
               AppScreenUtils.verticalSpaceSmall,
 
               //! TITLE
-              Text("Event title", style: _titleStyle),
+              Text("Event title", style: titleStyle),
 
               //! SPACER
               AppScreenUtils.verticalSpaceSmall,
@@ -93,7 +93,7 @@ class _AddEventState extends State<AddEvent> {
               AppScreenUtils.verticalSpaceMedium,
 
               //! DESCRIPTION
-              Text("Event description", style: _titleStyle),
+              Text("Event description", style: titleStyle),
 
               //! SPACER
               AppScreenUtils.verticalSpaceSmall,
@@ -104,7 +104,7 @@ class _AddEventState extends State<AddEvent> {
               AppScreenUtils.verticalSpaceMedium,
 
               //! PRIORITY
-              Text("Priority", style: _titleStyle),
+              Text("Priority", style: titleStyle),
 
               //! SPACER
               AppScreenUtils.verticalSpaceSmall,
@@ -147,7 +147,7 @@ class _AddEventState extends State<AddEvent> {
                                 //! ITEM
                                 Text(item,
                                     style:
-                                        _titleStyle.copyWith(fontSize: 12.0.sp))
+                                        titleStyle.copyWith(fontSize: 12.0.sp))
                               ])))
                           .toList(),
 
@@ -159,7 +159,7 @@ class _AddEventState extends State<AddEvent> {
               AppScreenUtils.verticalSpaceMedium,
 
               //! START DATE
-              Text("Start date", style: _titleStyle),
+              Text("Start date", style: titleStyle),
 
               //! SPACER
               AppScreenUtils.verticalSpaceSmall,
@@ -186,7 +186,7 @@ class _AddEventState extends State<AddEvent> {
                                     ? "Start: ${DateFormat("dd-MM-yyy").format(start)}   -  End: ${DateFormat("dd-MM-yyy").format(end)}  "
                                     : "Select date",
                                 textAlign: TextAlign.center,
-                                style: _titleStyle.copyWith(
+                                style: titleStyle.copyWith(
                                     fontSize: hasDateBeenSelected
                                         ? 14.0.sp
                                         : 12.0.sp)),
@@ -224,7 +224,7 @@ class _AddEventState extends State<AddEvent> {
                 appBarTheme: Theme.of(context).appBarTheme.copyWith(
                     backgroundColor: purple,
                     centerTitle: true,
-                    titleTextStyle: Theme.of(context).textTheme.bodyText1,
+                    titleTextStyle: Theme.of(context).textTheme.bodyLarge,
                     iconTheme:
                         IconThemeData(color: Colors.white, size: 18.0.sp)),
                 textButtonTheme: TextButtonThemeData(
@@ -232,7 +232,7 @@ class _AddEventState extends State<AddEvent> {
                         backgroundColor: Colors.transparent,
                         textStyle: Theme.of(context)
                             .textTheme
-                            .bodyText1!
+                            .bodyLarge!
                             .copyWith(fontSize: 12.0.sp, color: Colors.black))),
                 colorScheme:
                     ColorScheme.fromSwatch(primarySwatch: Colors.indigo)),

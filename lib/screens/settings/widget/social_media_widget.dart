@@ -23,7 +23,7 @@ class SocialMediaSettingsItemWidget extends StatelessWidget {
         AppScreenUtils.horizontalSpaceSmall,
 
         Text(title,
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 fontWeight: FontWeight.w600, color: const Color(0xFF4F4F4F))),
 
         //! SPACER

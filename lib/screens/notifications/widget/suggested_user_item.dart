@@ -29,7 +29,7 @@ class SuggestedUserItem extends StatelessWidget {
           Text("Ekaneoffiong \nstarted following you",
               style: Theme.of(context)
                   .textTheme
-                  .bodyText2!
+                  .bodyMedium!
                   .copyWith(fontSize: 12.0.sp, fontWeight: FontWeight.w600)),
           //! SPACER
           AppScreenUtils.verticalSpaceSmall,
@@ -38,7 +38,7 @@ class SuggestedUserItem extends StatelessWidget {
           Text("8:00 AM",
               style: Theme.of(context)
                   .textTheme
-                  .bodyText2!
+                  .bodyMedium!
                   .copyWith(fontSize: 10.0.sp, color: Colors.grey.shade600))
         ]),
 
@@ -57,7 +57,7 @@ class SuggestedUserItem extends StatelessWidget {
             child: Text("Follow",
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText2!
+                    .bodyMedium!
                     .copyWith(fontSize: 14.0.sp, fontWeight: FontWeight.w600))),
 
         //! CANCEL BUTTON

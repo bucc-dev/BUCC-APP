@@ -25,7 +25,7 @@ class _ReportAProblemScreenState extends State<ReportAProblemScreen> {
           title: Text("Report",
               style: Theme.of(context)
                   .textTheme
-                  .bodyText1!
+                  .bodyLarge!
                   .copyWith(fontSize: 16.0.sp, fontWeight: FontWeight.w600))),
 
       //! BODY
@@ -46,7 +46,7 @@ class _ReportAProblemScreenState extends State<ReportAProblemScreen> {
 
                     //! NOTICE
                     Text("We're here to help",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontWeight: FontWeight.w500, fontSize: 14.0.sp)),
 
                     //! SPACER
@@ -73,7 +73,7 @@ class _ReportAProblemScreenState extends State<ReportAProblemScreen> {
 
                     //! NOTICE
                     Text("We would send a response via your student’s email ",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontSize: 12.0.sp, color: const Color(0xFF878787)))
                   ])));
 }

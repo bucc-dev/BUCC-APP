@@ -20,7 +20,7 @@ class AllNotifications extends StatelessWidget {
             child: Text("New",
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText2!
+                    .bodyMedium!
                     .copyWith(fontSize: 11.0.sp, fontWeight: FontWeight.w700))),
 
         //! SPACER
@@ -52,7 +52,7 @@ class AllNotifications extends StatelessWidget {
             : Align(
                 alignment: Alignment.centerLeft,
                 child: Text("Earlier today",
-                    style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 14.0.sp, fontWeight: FontWeight.w700))),
 
         //! SPACER

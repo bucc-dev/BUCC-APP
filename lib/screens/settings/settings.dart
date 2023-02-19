@@ -122,7 +122,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
 
           //! USER NAME
           Text("Oluchi Egboh",
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   color: const Color(0xFF313636),
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0.sp)),
@@ -134,7 +134,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             //! COURSE
             Text("Software Engineering",
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: const Color(0xFF313636),
                     fontWeight: FontWeight.w500,
                     fontSize: 14.0.sp)),
@@ -151,7 +151,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
 
             //! LEVEL
             Text("400L",
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: const Color(0xFF313636),
                     fontWeight: FontWeight.w500,
                     fontSize: 14.0.sp))
@@ -230,7 +230,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                           .map((themeOption) => Text(themeOption,
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText1!
+                                  .bodyLarge!
                                   .copyWith(fontSize: 12.0.sp)))
                           .toList())),
 

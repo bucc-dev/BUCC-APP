@@ -41,27 +41,27 @@ class NotificationItem extends StatelessWidget {
                 children: [
                   //! NAME
                   Text("Blessed Madukoma",
-                      style: Theme.of(context).textTheme.bodyText1),
+                      style: Theme.of(context).textTheme.bodyLarge),
 
                   //! SPACER
                   SizedBox(width: 5.0.w),
 
                   //! ACTION
                   Text(" commented on your post",
-                      style: Theme.of(context).textTheme.bodyText2)
+                      style: Theme.of(context).textTheme.bodyMedium)
                 ],
               )
             : Row(children: [
                 //! NAME
                 Text("Fidelis Antigha ",
-                    style: Theme.of(context).textTheme.bodyText1),
+                    style: Theme.of(context).textTheme.bodyLarge),
 
                 //! SPACER
                 SizedBox(width: 5.0.w),
 
                 //! ACTION
                 Text(" replied your comment",
-                    style: Theme.of(context).textTheme.bodyText2)
+                    style: Theme.of(context).textTheme.bodyMedium)
               ]),
 
         //! SPACER
@@ -71,7 +71,7 @@ class NotificationItem extends StatelessWidget {
         Text("8:00 AM",
             style: Theme.of(context)
                 .textTheme
-                .bodyText2!
+                .bodyMedium!
                 .copyWith(fontSize: 10.0.sp, color: Colors.grey.shade600))
       ]));
 }

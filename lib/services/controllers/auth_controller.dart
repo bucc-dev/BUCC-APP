@@ -1,3 +1,4 @@
+// ignore_for_file: body_might_complete_normally_catch_error
 import 'dart:developer';
 import 'package:bucc_app/services/repositories/auth_repository.dart';
 import 'package:bucc_app/utils/app_functional_utils.dart';
@@ -13,6 +14,7 @@ final authControllerProvider = StateNotifierProvider<AuthController, bool>(
 
 class AuthController extends StateNotifier<bool> {
   final AuthRepository _authRepository;
+  // ignore: unused_field
   final Ref _ref;
   AuthController({required AuthRepository authRepository, required Ref ref})
       : _authRepository = authRepository,

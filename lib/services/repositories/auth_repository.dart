@@ -1,3 +1,4 @@
+// ignore_for_file: body_might_complete_normally_catch_error
 import 'dart:convert';
 import 'package:bucc_app/services/cache/tokens_cache.dart';
 import 'package:bucc_app/services/model/auth/token_model.dart';
@@ -8,6 +9,7 @@ import 'package:bucc_app/utils/type_defs.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 
 final Provider<AuthRepository> authRepositoryProvider =
@@ -82,6 +84,7 @@ class AuthRepository {
       {required String oldPassword, required String newPassword}) async {
     try {
       //! FETCH USER TOKEN
+      // ignore: unnecessary_nullable_for_final_variable_declarations
       final UserToken? userToken = await TokenCache.getUserTokens();
 
       //! MAKE REQUEST, ADD HEADER SUPPORTS, REQUEST BODY AND SEND REQUEST

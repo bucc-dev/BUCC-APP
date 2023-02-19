@@ -19,7 +19,7 @@ class ExecutiveNotifications extends StatelessWidget {
 
         //! TEXT
         Text("No Executive Notifications",
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 fontSize: 18.0.sp, color: AppThemeColours.primaryColour))
       ]));
 }

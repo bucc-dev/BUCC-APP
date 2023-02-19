@@ -1,3 +1,4 @@
+// ignore_for_file: body_might_complete_normally_catch_error
 import 'package:bucc_app/services/model/event/event_model.dart';
 import 'package:bucc_app/services/repositories/posts_repository.dart';
 import 'package:bucc_app/utils/app_functional_utils.dart';
@@ -14,6 +15,7 @@ final StateNotifierProvider<PostsController, bool> postsControllerProvider =
 
 class PostsController extends StateNotifier<bool> {
   final PostRepository _postsRepository;
+  // ignore: unused_field
   final Ref _ref;
 
   //! CONSTRUCTOR
