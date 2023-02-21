@@ -187,4 +187,15 @@ class AppFunctionalUtils {
 
     pref.setBool("showHome", true);
   }
+
+  //!
+  //! GET PRIORITY COLOUR
+  static Color getPriorityColour({required int priorityIndex}) =>
+      priorityIndex == 0
+          ? AppThemeColours.red
+          : priorityIndex == 1
+              ? Colors.amber.shade700
+              : priorityIndex == 2
+                  ? Colors.teal.shade300
+                  : Colors.grey.shade600;
 }

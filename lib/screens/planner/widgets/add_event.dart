@@ -1,11 +1,16 @@
-import 'dart:developer';
+// ignore_for_file: invalid_use_of_protected_member
 
+import 'dart:developer';
+import 'package:bucc_app/screens/planner/planner.dart';
 import 'package:bucc_app/screens/widgets/button_component.dart';
 import 'package:bucc_app/screens/widgets/custom_textfield.dart';
+import 'package:bucc_app/services/model/event/event_model.dart';
 import 'package:bucc_app/theme/app_theme.dart';
+import 'package:bucc_app/utils/app_functional_utils.dart';
 import 'package:bucc_app/utils/app_screen_utils.dart';
 import 'package:bucc_app/utils/constants/app_constants.dart';
 import 'package:bucc_app/utils/constants/colors.dart';
+import 'package:bucc_app/utils/extentions/app_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -18,33 +23,39 @@ class AddEvent extends StatefulWidget {
 }
 
 class _AddEventState extends State<AddEvent> {
-  // Initial Selected Value
-  String dropDownValue = "Priority status";
+  //! TEXT FORM FIELD CONTROLLERS
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
-  // List of items in our dropdown menu
+  //! Initial Selected Value
+  ValueNotifier<String> dropDownValue = ValueNotifier("Priority status");
+
+  //! List of items in our dropdown menu
   var items = ["Urgent", "Medium", "Low", "Priority status"];
 
-  DateTimeRange dateRange =
-      DateTimeRange(start: DateTime(2022, 9), end: DateTime(2100));
+  ValueNotifier<DateTimeRange> dateRange = ValueNotifier(
+      DateTimeRange(start: DateTime(2022, 9), end: DateTime(2100)));
 
-  bool hasDateBeenSelected = false;
+  ValueNotifier<bool> hasDateBeenSelected = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
     //! HEADER TEXT STYLE
     TextStyle titleStyle = Theme.of(context)
         .textTheme
-        .bodyLarge!
+        .bodyMedium!
         .copyWith(fontSize: 14.0.sp, color: const Color(0xff878787));
 
-    final start = dateRange.start;
-    final end = dateRange.end;
-    final difference = dateRange.duration;
+    final start = dateRange.value.start;
+    final end = dateRange.value.end;
+    final difference = dateRange.value.duration;
+
+    "Add Event Build".log();
 
     return Scaffold(
         appBar: AppBar(
             centerTitle: true,
-            elevation: 4.0,
+            elevation: 0.5.h,
             leading: //! PROFILE IMAGE
                 Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -57,7 +68,7 @@ class _AddEventState extends State<AddEvent> {
 
             //! TITLE
             title: Text("Planner",
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: black,
                     fontSize: 16.0.sp,
                     fontWeight: FontWeight.w600)),
@@ -67,13 +78,13 @@ class _AddEventState extends State<AddEvent> {
               TextButton(
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text("Cancel",
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: AppThemeColours.red,
                           fontWeight: FontWeight.w500)))
             ]),
 
         //! BODY
-        body: Padding(
+        body: SingleChildScrollView(
             padding: AppScreenUtils.appMainPadding,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -87,7 +98,8 @@ class _AddEventState extends State<AddEvent> {
               AppScreenUtils.verticalSpaceSmall,
 
               //! TITLE
-              const CustomTextField(hintText: "Title"),
+              CustomTextField(
+                  maxLines: 1, controller: _titleController, hintText: "Title"),
 
               //! SPACER
               AppScreenUtils.verticalSpaceMedium,
@@ -98,7 +110,10 @@ class _AddEventState extends State<AddEvent> {
               //! SPACER
               AppScreenUtils.verticalSpaceSmall,
 
-              const CustomTextField(hintText: "Description", maxLines: 6),
+              CustomTextField(
+                  hintText: "Description",
+                  controller: _descriptionController,
+                  maxLines: 6),
 
               //! SPACER
               AppScreenUtils.verticalSpaceMedium,
@@ -109,6 +124,7 @@ class _AddEventState extends State<AddEvent> {
               //! SPACER
               AppScreenUtils.verticalSpaceSmall,
 
+              //! PRIORITY
               Container(
                   width: double.infinity,
                   padding:
@@ -116,44 +132,44 @@ class _AddEventState extends State<AddEvent> {
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey.shade200),
                       borderRadius: BorderRadius.circular(8.0.r)),
-                  child: DropdownButton(
-                      alignment: Alignment.center,
-                      elevation: 1,
-                      value: dropDownValue,
-                      underline: const SizedBox.shrink(),
+                  child: ValueListenableBuilder(
+                    valueListenable: dropDownValue,
+                    builder: (context, value, child) => DropdownButton(
+                        alignment: Alignment.center,
+                        elevation: 1,
+                        value: dropDownValue.value,
+                        underline: const SizedBox.shrink(),
 
-                      //! ICON
-                      iconSize: 18.0.sp,
-                      icon: const SizedBox.shrink(),
+                        //! ICON
+                        iconSize: 18.0.sp,
+                        icon: const SizedBox.shrink(),
 
-                      //! ITEMS
-                      items: items
-                          .map((String item) => DropdownMenuItem(
-                              value: item,
-                              child: Row(children: [
-                                Icon(Icons.flag,
-                                    size: 21.0.sp,
-                                    color: items.indexOf(item) == 0
-                                        ? AppThemeColours.red
-                                        : items.indexOf(item) == 1
-                                            ? Colors.amber.shade700
-                                            : items.indexOf(item) == 2
-                                                ? Colors.teal.shade300
-                                                : Colors.grey.shade600),
+                        //! ITEMS
+                        items: items
+                            .map((String item) => DropdownMenuItem(
+                                value: item,
+                                child: Row(children: [
+                                  Icon(Icons.flag,
+                                      size: 21.0.sp,
+                                      color:
+                                          AppFunctionalUtils.getPriorityColour(
+                                              priorityIndex:
+                                                  items.indexOf(item))),
 
-                                //! SPACER
-                                AppScreenUtils.horizontalSpaceSmall,
+                                  //! SPACER
+                                  AppScreenUtils.horizontalSpaceSmall,
 
-                                //! ITEM
-                                Text(item,
-                                    style:
-                                        titleStyle.copyWith(fontSize: 12.0.sp))
-                              ])))
-                          .toList(),
+                                  //! ITEM
+                                  Text(item,
+                                      style: titleStyle.copyWith(
+                                          fontSize: 12.0.sp))
+                                ])))
+                            .toList(),
 
-                      //! CHANGE BUTTON VALUE
-                      onChanged: (String? newValue) =>
-                          setState(() => dropDownValue = newValue!))),
+                        //! CHANGE BUTTON VALUE
+                        onChanged: (newValue) =>
+                            dropDownValue.value = newValue.toString()),
+                  )),
 
               //! SPACER
               AppScreenUtils.verticalSpaceMedium,
@@ -181,15 +197,17 @@ class _AddEventState extends State<AddEvent> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             //! TITLE
-                            Text(
-                                hasDateBeenSelected
-                                    ? "Start: ${DateFormat("dd-MM-yyy").format(start)}   -  End: ${DateFormat("dd-MM-yyy").format(end)}  "
-                                    : "Select date",
-                                textAlign: TextAlign.center,
-                                style: titleStyle.copyWith(
-                                    fontSize: hasDateBeenSelected
-                                        ? 14.0.sp
-                                        : 12.0.sp)),
+                            ValueListenableBuilder(
+                                valueListenable: hasDateBeenSelected,
+                                builder: (context, value, child) => Text(
+                                    hasDateBeenSelected.value
+                                        ? "${DateFormat("dd-MM-yyy").format(start)}   -  ${DateFormat("dd-MM-yyy").format(end)}  "
+                                        : "Select date",
+                                    textAlign: TextAlign.center,
+                                    style: titleStyle.copyWith(
+                                        fontSize: hasDateBeenSelected.value
+                                            ? 14.0.sp
+                                            : 12.0.sp))),
 
                             //! ICON
                             Icon(Icons.calendar_month_outlined,
@@ -204,7 +222,17 @@ class _AddEventState extends State<AddEvent> {
                   width: double.infinity,
                   child: ButtonComponent(
                       onPressed: () {
-                        log("Priority: $dropDownValue, Date: $difference");
+                        listOfEvents.value.add(EventModel(
+                            postID: "",
+                            title: _titleController.value.text.trim(),
+                            description:
+                                _descriptionController.value.text.trim(),
+                            priority: dropDownValue.value,
+                            startDate: start.toString(),
+                            time: DateTime.now().toString()));
+
+                        // ignore: invalid_use_of_visible_for_testing_member
+                        listOfEvents.notifyListeners();
 
                         Navigator.of(context).pop();
                       },
@@ -215,7 +243,7 @@ class _AddEventState extends State<AddEvent> {
   Future<void> getDateRange({required BuildContext context}) async {
     DateTimeRange? newDateRange = await showDateRangePicker(
         context: context,
-        initialDateRange: dateRange,
+        initialDateRange: dateRange.value,
         firstDate: DateTime(2022, 9),
         lastDate: DateTime(2100),
         cancelText: "",
@@ -224,7 +252,7 @@ class _AddEventState extends State<AddEvent> {
                 appBarTheme: Theme.of(context).appBarTheme.copyWith(
                     backgroundColor: purple,
                     centerTitle: true,
-                    titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+                    titleTextStyle: Theme.of(context).textTheme.bodyMedium,
                     iconTheme:
                         IconThemeData(color: Colors.white, size: 18.0.sp)),
                 textButtonTheme: TextButtonThemeData(
@@ -232,7 +260,7 @@ class _AddEventState extends State<AddEvent> {
                         backgroundColor: Colors.transparent,
                         textStyle: Theme.of(context)
                             .textTheme
-                            .bodyLarge!
+                            .bodyMedium!
                             .copyWith(fontSize: 12.0.sp, color: Colors.black))),
                 colorScheme:
                     ColorScheme.fromSwatch(primarySwatch: Colors.indigo)),
@@ -240,6 +268,7 @@ class _AddEventState extends State<AddEvent> {
 
     if (newDateRange == null) return;
 
-    setState(() => {dateRange = newDateRange, hasDateBeenSelected = true});
+    dateRange.value = newDateRange;
+    hasDateBeenSelected.value = true;
   }
 }
