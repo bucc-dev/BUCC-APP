@@ -55,13 +55,7 @@ class _HomeWrapperState extends ConsumerState<HomeWrapper>
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        appBar: PreferredSize(
-            preferredSize:
-                Size.fromHeight(currentPageIndex.value == 3 ? 55 : 65),
-            child: ValueListenableBuilder(
-                valueListenable: currentPageIndex,
-                builder: (context, value, child) =>
-                    HomeWrapperAppBar(screenIndex: currentPageIndex.value))),
+        appBar: HomeWrapperAppBar(currentPageIndex: currentPageIndex),
 
         //! BODY
         body: SafeArea(

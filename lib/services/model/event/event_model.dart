@@ -12,6 +12,7 @@ class EventModel extends HiveObject {
   late String? description;
   late String? priority;
   late String? startDate;
+  late String? endDate;
   late String? time;
 
   EventModel(
@@ -20,6 +21,7 @@ class EventModel extends HiveObject {
       this.description,
       this.priority,
       this.startDate,
+      this.endDate,
       this.time});
 
   //! CREATE A FROM MAP
@@ -29,6 +31,7 @@ class EventModel extends HiveObject {
         "description": description,
         "priority": priority,
         "startDate": startDate,
+        "endDate": endDate,
         "time": time
       };
 
@@ -38,5 +41,6 @@ class EventModel extends HiveObject {
       description: json["description"] ?? "",
       priority: json["priority"] ?? false,
       time: json["time"] ?? "",
-      startDate: json["startDate"] ?? "");
+      startDate: json["startDate"] ?? "",
+      endDate: json["endDate"] ?? "");
 }

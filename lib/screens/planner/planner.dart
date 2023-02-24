@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api, invalid_use_of_protected_member
 import 'package:bucc_app/screens/planner/widgets/no_events.dart';
+import 'package:bucc_app/screens/planner/widgets/update_event.dart';
 import 'package:bucc_app/services/model/event/event_model.dart';
 import 'package:bucc_app/theme/app_theme.dart';
 import 'package:bucc_app/utils/app_fade_animation.dart';
@@ -10,7 +11,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+//! LIST OF EVENTS
 ValueNotifier<List<EventModel>> listOfEvents = ValueNotifier([]);
+//! SET OF EVENTS TO BE DELETED
+ValueNotifier<Set<EventModel>> setOfEventsToBeDeleted = ValueNotifier({});
 
 class PlannerScreen extends ConsumerStatefulWidget {
   const PlannerScreen({super.key});
@@ -23,48 +27,88 @@ class _PlannerScreenState extends ConsumerState<PlannerScreen> {
   //! List of items in our dropdown menu
   var items = ["Urgent", "Medium", "Low", "Priority status"];
 
+  void addOrRemoveEvent({required EventModel event}) {
+    setOfEventsToBeDeleted.value.contains(event)
+        ? setOfEventsToBeDeleted.value.remove(event)
+        : setOfEventsToBeDeleted.value.add(event);
+  }
+
   @override
   Widget build(BuildContext context) => ValueListenableBuilder(
       valueListenable: listOfEvents,
       builder: (context, value, child) => listOfEvents.value.isEmpty
-          ? const NoEvents()
-          : SingleChildScrollView(
+          ?
+          //! NO EVENTS
+          const NoEvents()
+          :
+          //! USER HAS EVENTS
+          SingleChildScrollView(
               padding:
                   EdgeInsets.symmetric(horizontal: 21.0.w, vertical: 12.0.h),
               physics: const BouncingScrollPhysics(),
               child: Column(
                   children: listOfEvents.value
                       .map((event) => AppFadeAnimation(
-                            delay: listOfEvents.value.indexOf(event) == 0
-                                ? 1.05
-                                : listOfEvents.value.indexOf(event) == 1
-                                    ? 1.15
-                                    : 1.25,
-                            child: Column(children: [
-                              Slidable(
-                                  endActionPane: ActionPane(
-                                      motion: const ScrollMotion(),
-                                      extentRatio: 0.3,
-                                      children: [
-                                        //! DELETE / REMOVE RECIPIENT FROM FAVOURITES LIST
-                                        SlidableAction(
-                                            flex: 1,
-                                            onPressed: (value) async => {
-                                                  listOfEvents.value
-                                                      .remove(event),
-                                                  // ignore: invalid_use_of_visible_for_testing_member
-                                                  listOfEvents.notifyListeners()
-                                                },
-                                            backgroundColor: AppThemeColours.red
-                                                .withOpacity(0.1),
-                                            foregroundColor:
-                                                AppThemeColours.red,
-                                            icon: Icons.delete_outline)
-                                      ]),
+                          delay: listOfEvents.value.indexOf(event) == 0
+                              ? 1.05
+                              : listOfEvents.value.indexOf(event) == 1
+                                  ? 1.15
+                                  : 1.25,
+                          child: Column(children: [
+                            Slidable(
+                                startActionPane: ActionPane(
+                                    motion: const ScrollMotion(),
+                                    extentRatio: 0.13,
+                                    children: [
+                                      //! DELETE / REMOVE RECIPIENT FROM FAVOURITES LIST
+                                      ValueListenableBuilder(
+                                          valueListenable:
+                                              setOfEventsToBeDeleted,
+                                          builder: (context, value, child) =>
+                                              SlidableAction(
+                                                  flex: 1,
+                                                  spacing: 8,
+                                                  autoClose: false,
+                                                  onPressed: (value) async {
+                                                    //! CHECK IF EVENT IS ALREADY LISTED AND REMOVE IT; ELSE ADD IT.
+                                                    addOrRemoveEvent(
+                                                        event: event);
 
-                                  //! EVENT BEING SHOWN
-                                  child: Padding(
-                                    padding: EdgeInsets.only(right: 12.0.w),
+                                                    setOfEventsToBeDeleted
+                                                        // ignore: invalid_use_of_visible_for_testing_member
+                                                        .notifyListeners();
+
+                                                    /* listOfEvents.value
+                                                        .remove(event),
+                                                    listOfEvents
+                                                        // ignore: invalid_use_of_visible_for_testing_member
+                                                        .notifyListeners() */
+                                                  },
+                                                  /* backgroundColor: AppThemeColours
+                                                      .red
+                                                      .withOpacity(0.1), */
+                                                  foregroundColor:
+                                                      AppThemeColours.red,
+                                                  icon: setOfEventsToBeDeleted
+                                                          .value
+                                                          .contains(event)
+                                                      ? Icons.circle
+                                                      : Icons.circle_outlined))
+                                    ]),
+
+                                //! EVENT BEING SHOWN
+                                child: InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) => UpdateEvent(
+                                                  theEvent: event)));
+                                    },
+                                    splashColor:
+                                        AppFunctionalUtils.getPriorityColour(
+                                                priorityIndex: items
+                                                    .indexOf(event.priority!))
+                                            .withOpacity(0.1),
                                     child: Row(children: [
                                       //! PRIORITY BAR
                                       Container(
@@ -83,44 +127,55 @@ class _PlannerScreenState extends ConsumerState<PlannerScreen> {
                                       AppScreenUtils.horizontalSpaceMedium,
 
                                       //! TITLE AND DESCRIPTION
-                                      Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
+                                      Expanded(
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
                                             //! TITLE
-                                            Text(
-                                                event.title ??
-                                                    "Event title yet to be given",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium!
-                                                    .copyWith(
-                                                        fontSize: 14.0.sp,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: AppThemeColours
-                                                            .fourthGrey)),
+                                            SingleChildScrollView(
+                                                physics:
+                                                    const BouncingScrollPhysics(),
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                child: Text(
+                                                    event.title ??
+                                                        "Event title yet to be given",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium!
+                                                        .copyWith(
+                                                            fontSize: 14.0.sp,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: AppThemeColours
+                                                                .fourthGrey))),
 
                                             //! SPACER
                                             AppScreenUtils.verticalSpaceSmall,
 
                                             //! DESCRIPTION
-                                            Text(
-                                                event.description ??
-                                                    "Event description yet to be given",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium!
-                                                    .copyWith(
-                                                        fontSize: 12.0.sp,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: AppThemeColours
-                                                            .fourthGrey)),
-                                          ]),
+                                            SingleChildScrollView(
+                                                physics:
+                                                    const BouncingScrollPhysics(),
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                child: Text(
+                                                    event.description ??
+                                                        "Event description yet to be given",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium!
+                                                        .copyWith(
+                                                            fontSize: 12.0.sp,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: AppThemeColours
+                                                                .fourthGrey)))
+                                          ])),
 
                                       //! SPACER
-                                      const Spacer(),
+                                      AppScreenUtils.horizontalSpaceMedium,
 
                                       //! TIME OF EVENT
                                       SingleChildScrollView(
@@ -142,18 +197,16 @@ class _PlannerScreenState extends ConsumerState<PlannerScreen> {
                                                           FontWeight.w500,
                                                       color: AppThemeColours
                                                           .lightGrey)))
-                                    ]),
-                                  )),
+                                    ]))),
 
-                              //! SPACER
-                              AppScreenUtils.verticalSpaceSmall,
+                            //! SPACER
+                            AppScreenUtils.verticalSpaceSmall,
 
-                              //! DIVIDER
-                              const Divider(),
+                            //! DIVIDER
+                            const Divider(),
 
-                              //! SPACER
-                              AppScreenUtils.verticalSpaceSmall
-                            ]),
-                          ))
+                            //! SPACER
+                            AppScreenUtils.verticalSpaceSmall
+                          ])))
                       .toList())));
 }

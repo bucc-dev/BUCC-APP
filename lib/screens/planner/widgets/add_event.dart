@@ -1,6 +1,5 @@
 // ignore_for_file: invalid_use_of_protected_member
 
-import 'dart:developer';
 import 'package:bucc_app/screens/planner/planner.dart';
 import 'package:bucc_app/screens/widgets/button_component.dart';
 import 'package:bucc_app/screens/widgets/custom_textfield.dart';
@@ -28,15 +27,16 @@ class _AddEventState extends State<AddEvent> {
   final TextEditingController _descriptionController = TextEditingController();
 
   //! Initial Selected Value
-  ValueNotifier<String> dropDownValue = ValueNotifier("Priority status");
+  ValueNotifier<String> dropDownValue = ValueNotifier("No Priority");
 
   //! List of items in our dropdown menu
-  var items = ["Urgent", "Medium", "Low", "Priority status"];
+  var items = ["Urgent", "Medium", "Low", "No Priority"];
 
-  ValueNotifier<DateTimeRange> dateRange = ValueNotifier(
-      DateTimeRange(start: DateTime(2022, 9), end: DateTime(2100)));
+  ValueNotifier<DateTimeRange> dateRange =
+      ValueNotifier(DateTimeRange(start: DateTime.now(), end: DateTime(2100)));
 
   ValueNotifier<bool> hasDateBeenSelected = ValueNotifier(false);
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +46,9 @@ class _AddEventState extends State<AddEvent> {
         .bodyMedium!
         .copyWith(fontSize: 14.0.sp, color: const Color(0xff878787));
 
-    final start = dateRange.value.start;
+    /* final start = dateRange.value.start;
     final end = dateRange.value.end;
-    final difference = dateRange.value.duration;
+    final difference = dateRange.value.duration; */
 
     "Add Event Build".log();
 
@@ -86,158 +86,185 @@ class _AddEventState extends State<AddEvent> {
         //! BODY
         body: SingleChildScrollView(
             padding: AppScreenUtils.appMainPadding,
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              //! SPACER
-              AppScreenUtils.verticalSpaceSmall,
+            child: Form(
+                key: _formKey,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceSmall,
 
-              //! TITLE
-              Text("Event title", style: titleStyle),
+                      //! TITLE
+                      Text("Event title", style: titleStyle),
 
-              //! SPACER
-              AppScreenUtils.verticalSpaceSmall,
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceSmall,
 
-              //! TITLE
-              CustomTextField(
-                  maxLines: 1, controller: _titleController, hintText: "Title"),
+                      //! TITLE
+                      CustomTextField(
+                          maxLines: 1,
+                          controller: _titleController,
+                          hintText: "Title",
+                          validator: () {
+                            if (_titleController.value.text.isEmpty) {
+                              return "Event title cannot be empty";
+                            } else {
+                              return null;
+                            }
+                          }),
 
-              //! SPACER
-              AppScreenUtils.verticalSpaceMedium,
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceMedium,
 
-              //! DESCRIPTION
-              Text("Event description", style: titleStyle),
+                      //! DESCRIPTION
+                      Text("Event description", style: titleStyle),
 
-              //! SPACER
-              AppScreenUtils.verticalSpaceSmall,
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceSmall,
 
-              CustomTextField(
-                  hintText: "Description",
-                  controller: _descriptionController,
-                  maxLines: 6),
+                      CustomTextField(
+                          hintText: "Description",
+                          controller: _descriptionController,
+                          maxLines: 6,
+                          validator: () {
+                            if (_descriptionController.value.text.isEmpty) {
+                              return "Event description cannot be empty";
+                            } else {
+                              return null;
+                            }
+                          }),
 
-              //! SPACER
-              AppScreenUtils.verticalSpaceMedium,
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceMedium,
 
-              //! PRIORITY
-              Text("Priority", style: titleStyle),
+                      //! PRIORITY
+                      Text("Priority", style: titleStyle),
 
-              //! SPACER
-              AppScreenUtils.verticalSpaceSmall,
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceSmall,
 
-              //! PRIORITY
-              Container(
-                  width: double.infinity,
-                  padding:
-                      EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0.w),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade200),
-                      borderRadius: BorderRadius.circular(8.0.r)),
-                  child: ValueListenableBuilder(
-                    valueListenable: dropDownValue,
-                    builder: (context, value, child) => DropdownButton(
-                        alignment: Alignment.center,
-                        elevation: 1,
-                        value: dropDownValue.value,
-                        underline: const SizedBox.shrink(),
+                      //! PRIORITY
+                      Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 4.0, horizontal: 12.0.w),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey.shade200),
+                              borderRadius: BorderRadius.circular(8.0.r)),
+                          child: ValueListenableBuilder(
+                            valueListenable: dropDownValue,
+                            builder: (context, value, child) => DropdownButton(
+                                alignment: Alignment.center,
+                                elevation: 1,
+                                value: dropDownValue.value,
+                                underline: const SizedBox.shrink(),
 
-                        //! ICON
-                        iconSize: 18.0.sp,
-                        icon: const SizedBox.shrink(),
+                                //! ICON
+                                iconSize: 18.0.sp,
+                                icon: const SizedBox.shrink(),
 
-                        //! ITEMS
-                        items: items
-                            .map((String item) => DropdownMenuItem(
-                                value: item,
-                                child: Row(children: [
-                                  Icon(Icons.flag,
-                                      size: 21.0.sp,
-                                      color:
-                                          AppFunctionalUtils.getPriorityColour(
-                                              priorityIndex:
-                                                  items.indexOf(item))),
+                                //! ITEMS
+                                items: items
+                                    .map((String item) => DropdownMenuItem(
+                                        value: item,
+                                        child: Row(children: [
+                                          Icon(Icons.flag,
+                                              size: 21.0.sp,
+                                              color: AppFunctionalUtils
+                                                  .getPriorityColour(
+                                                      priorityIndex:
+                                                          items.indexOf(item))),
 
-                                  //! SPACER
-                                  AppScreenUtils.horizontalSpaceSmall,
+                                          //! SPACER
+                                          AppScreenUtils.horizontalSpaceSmall,
 
-                                  //! ITEM
-                                  Text(item,
-                                      style: titleStyle.copyWith(
-                                          fontSize: 12.0.sp))
-                                ])))
-                            .toList(),
+                                          //! ITEM
+                                          Text(item,
+                                              style: titleStyle.copyWith(
+                                                  fontSize: 12.0.sp))
+                                        ])))
+                                    .toList(),
 
-                        //! CHANGE BUTTON VALUE
-                        onChanged: (newValue) =>
-                            dropDownValue.value = newValue.toString()),
-                  )),
+                                //! CHANGE BUTTON VALUE
+                                onChanged: (newValue) =>
+                                    dropDownValue.value = newValue.toString()),
+                          )),
 
-              //! SPACER
-              AppScreenUtils.verticalSpaceMedium,
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceMedium,
 
-              //! START DATE
-              Text("Start date", style: titleStyle),
+                      //! START DATE
+                      Text("Start date", style: titleStyle),
 
-              //! SPACER
-              AppScreenUtils.verticalSpaceSmall,
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceSmall,
 
-              //! DATE PICKER
-              Container(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 12.0.h, horizontal: 18.0.w),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.grey.shade200, width: 1.3.sp),
-                      borderRadius: BorderRadius.circular(8.0.r)),
-                  alignment: Alignment.centerLeft,
-                  child: TextButton(
-                      onPressed: () => getDateRange(context: context),
-                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            //! TITLE
-                            ValueListenableBuilder(
-                                valueListenable: hasDateBeenSelected,
-                                builder: (context, value, child) => Text(
-                                    hasDateBeenSelected.value
-                                        ? "${DateFormat("dd-MM-yyy").format(start)}   -  ${DateFormat("dd-MM-yyy").format(end)}  "
-                                        : "Select date",
-                                    textAlign: TextAlign.center,
-                                    style: titleStyle.copyWith(
-                                        fontSize: hasDateBeenSelected.value
-                                            ? 14.0.sp
-                                            : 12.0.sp))),
+                      //! DATE PICKER
+                      Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 12.0.h, horizontal: 18.0.w),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey.shade200, width: 1.3.sp),
+                              borderRadius: BorderRadius.circular(8.0.r)),
+                          alignment: Alignment.centerLeft,
+                          child: TextButton(
+                              onPressed: () => getDateRange(context: context),
+                              style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    //! TITLE
+                                    ValueListenableBuilder(
+                                        valueListenable: hasDateBeenSelected,
+                                        builder: (context, value, child) => Text(
+                                            hasDateBeenSelected.value
+                                                ? "${DateFormat("dd-MM-yyy").format(dateRange.value.start)}   -  ${DateFormat("dd-MM-yyy").format(dateRange.value.end)}  "
+                                                : "Select date",
+                                            textAlign: TextAlign.center,
+                                            style: titleStyle.copyWith(
+                                                fontSize:
+                                                    hasDateBeenSelected.value
+                                                        ? 14.0.sp
+                                                        : 12.0.sp))),
 
-                            //! ICON
-                            Icon(Icons.calendar_month_outlined,
-                                size: 18.0.sp, color: Colors.black54)
-                          ]))),
+                                    //! ICON
+                                    Icon(Icons.calendar_month_outlined,
+                                        size: 18.0.sp, color: Colors.black54)
+                                  ]))),
 
-              //! SPACER
-              AppScreenUtils.verticalSpaceMedium,
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceMedium,
 
-              //! BUTTON
-              SizedBox(
-                  width: double.infinity,
-                  child: ButtonComponent(
-                      onPressed: () {
-                        listOfEvents.value.add(EventModel(
-                            postID: "",
-                            title: _titleController.value.text.trim(),
-                            description:
-                                _descriptionController.value.text.trim(),
-                            priority: dropDownValue.value,
-                            startDate: start.toString(),
-                            time: DateTime.now().toString()));
+                      //! BUTTON
+                      SizedBox(
+                          width: double.infinity,
+                          child: ButtonComponent(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  listOfEvents.value.add(EventModel(
+                                      postID: "",
+                                      title: _titleController.value.text.trim(),
+                                      description: _descriptionController
+                                          .value.text
+                                          .trim(),
+                                      priority: dropDownValue.value,
+                                      startDate:
+                                          dateRange.value.start.toString(),
+                                      endDate: dateRange.value.end.toString(),
+                                      time: DateTime.now().toString()));
 
-                        // ignore: invalid_use_of_visible_for_testing_member
-                        listOfEvents.notifyListeners();
+                                  // ignore: invalid_use_of_visible_for_testing_member
+                                  listOfEvents.notifyListeners();
 
-                        Navigator.of(context).pop();
-                      },
-                      text: "Save Event"))
-            ])));
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                              text: "Save Event"))
+                    ]))));
   }
 
   Future<void> getDateRange({required BuildContext context}) async {

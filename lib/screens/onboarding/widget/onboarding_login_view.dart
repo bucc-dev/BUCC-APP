@@ -79,6 +79,7 @@ class OnBoardingLoginView extends StatelessWidget {
                             thePageRouteName: AppRoutes.login,
                             context: context),
                         style: ElevatedButton.styleFrom(
+                            elevation: 0.0.h,
                             backgroundColor: AppThemeColours.white,
                             side: BorderSide(
                                 width: 1.0.sp,
