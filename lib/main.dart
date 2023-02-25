@@ -10,6 +10,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/onboarding/onboarding_view.dart';
 
+//! BUILD COMMAND
+//flutter build apk --release
+
 Future<void> main() async {
   //! INITIALIZE WIDGETS BINDING
   WidgetsFlutterBinding.ensureInitialized();
